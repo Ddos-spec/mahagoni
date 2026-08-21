@@ -5,5 +5,5 @@ export default defineConfig({
   base: '/mahagoni',
   output: 'static',
   trailingSlash: 'always',
-  prefetch: true
+  prefetch: false
 });
