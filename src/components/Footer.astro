@@ -1,11 +1,13 @@
 ---
 import { site } from '@/data/site';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
 ---
 <footer class="footer">
   <div class="footer-kicker">Built for scale. Made with precision.</div>
   <div class="footer-grid">
     <div>
-      <img class="footer-logo" src={site.logo} width="240" height="42" alt="Mahogani Utama Indonesia" />
+      <img class="footer-logo" src={logo} width="240" height="42" alt="Mahogani Utama Indonesia" />
       <p>Furniture & cabinetry manufacturing, OEM/ODM production and interior project delivery from Indonesia.</p>
     </div>
     <div><span class="label">Factory</span><p>{site.factory}</p></div>
