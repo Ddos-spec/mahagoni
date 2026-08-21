@@ -1,0 +1,205 @@
+/* Dedicated mobile/touch pass. Loaded after global.css so it can safely override the desktop art direction. */
+
+@media (max-width: 860px) {
+  html { -webkit-text-size-adjust: 100%; }
+  body { min-width: 320px; }
+
+  /* Navigation: full-screen, thumb-friendly, no accidental horizontal scroll. */
+  .site-header { padding-left: max(var(--pad), env(safe-area-inset-left)); padding-right: max(var(--pad), env(safe-area-inset-right)); }
+  .menu-toggle { min-width: 44px; min-height: 44px; justify-content: flex-end; cursor: pointer; }
+  .site-nav {
+    min-height: calc(100dvh - var(--header));
+    padding: 24px max(var(--pad), env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(var(--pad), env(safe-area-inset-left));
+    overscroll-behavior: contain;
+  }
+  .site-nav > a:not(.nav-cta):not(.lang-switch) { min-height: 56px; display: flex; align-items: center; }
+  .site-nav .lang-switch {
+    align-self: flex-start;
+    display: inline-grid;
+    place-items: center;
+    min-width: 52px;
+    min-height: 44px;
+    margin-top: 18px;
+    padding: 0 14px !important;
+    border: 1px solid var(--line);
+    font: 700 12px/1 'DM Sans', sans-serif !important;
+    letter-spacing: .12em !important;
+  }
+  .site-nav .lang-switch:after { display: none !important; }
+  .nav-cta { min-height: 50px; width: 100%; justify-content: space-between; }
+
+  /* Mobile hero: viewport-aware instead of a fixed oversized canvas. */
+  .hero {
+    height: auto;
+    min-height: max(640px, calc(100svh - var(--header)));
+  }
+  .hero-media { object-position: 50% 50%; }
+  .hero-content { padding-top: clamp(54px, 10vh, 88px); padding-bottom: 84px; gap: 28px; }
+  .hero h1, .page-hero h1, .section-title, .capability-intro h2, .process-heading h2, .world h2, .footer-cta h2 {
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  .hero-aside p { max-width: 42rem; }
+  .hero-actions .button { min-height: 46px; }
+
+  /* Content density and tap behavior. */
+  .section { scroll-margin-top: calc(var(--header) + 10px); }
+  .capability-row { min-height: 144px; }
+  .capability-row, .service-card, .project-tile, .post-card { -webkit-tap-highlight-color: transparent; }
+  .process-card { min-height: 205px; }
+  .project-tile-meta { left: 14px; right: 14px; bottom: 14px; }
+  .project-tile-meta strong { text-wrap: balance; }
+
+  /* Horizontal galleries should feel deliberate on touch devices. */
+  .oem-scroller {
+    scroll-padding-inline: var(--pad);
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .oem-scroller::-webkit-scrollbar { display: none; }
+
+  /* Forms / contact details must never run beyond the viewport. */
+  .contact-block a, .footer a, .footer p { overflow-wrap: anywhere; }
+  .field input, .field textarea { font-size: 16px; } /* prevents iOS input zoom */
+  .form-submit { min-height: 48px; justify-content: space-between; }
+
+  /* Floating CTA: fixed physical target and safe-area support. */
+  .wa-float {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .wa-float b { font-size: 17px; }
+}
+
+@media (max-width: 560px) {
+  :root { --pad: 18px; }
+
+  .site-header { padding-inline: 16px; }
+  .brand-crop { width: 180px; height: 42px; }
+  .brand-crop img { width: 272px; left: -32px; top: -16px; }
+
+  .site-nav { padding-top: 18px; }
+  .site-nav > a:not(.nav-cta):not(.lang-switch) {
+    font-size: clamp(27px, 8.4vw, 38px);
+    padding-block: 13px;
+  }
+
+  .hero { min-height: max(620px, calc(100svh - var(--header))); }
+  .hero-content { padding-top: 48px; padding-bottom: 78px; }
+  .hero h1 { font-size: clamp(50px, 16vw, 68px); line-height: .88; letter-spacing: -.065em; }
+  .hero-main .eyebrow { margin-bottom: 16px; }
+  .hero-aside p { font-size: 15px; line-height: 1.5; }
+  .hero-actions { margin-top: 20px; gap: 8px; }
+  .hero-actions .button { padding: 13px 14px; }
+  .hero-foot { left: 18px; right: 18px; bottom: 12px; gap: 10px; }
+  .hero-foot span:last-child { text-align: right; }
+
+  .stat { padding: 24px 18px; }
+  .stat strong { font-size: clamp(31px, 9vw, 38px); }
+  .stat span { line-height: 1.35; letter-spacing: .09em; }
+
+  .section { padding-top: 64px; padding-bottom: 64px; }
+  .section-head { margin-bottom: 36px; gap: 14px; }
+  .section-title { font-size: clamp(38px, 11.3vw, 50px); line-height: 1; }
+  .section-copy { font-size: 16px; line-height: 1.58; }
+  .kicker, .eyebrow { font-size: 10px; line-height: 1.35; letter-spacing: .14em; }
+
+  .editorial-split { gap: 28px; }
+  .media-frame.portrait { aspect-ratio: 4 / 4.7; }
+  .pillars.compact { border-left: 0; }
+
+  .capability-intro { padding: 54px 18px; }
+  .capability-intro h2 { font-size: clamp(41px, 12vw, 50px); }
+  .capability-row { min-height: 0; padding: 24px 18px; grid-template-columns: 30px 1fr; gap: 12px; }
+  .capability-row h3 { font-size: clamp(27px, 8vw, 33px); }
+  .capability-row p { font-size: 13px; }
+
+  .process-section { padding: 62px 18px; }
+  .process-heading { margin-bottom: 38px; }
+  .process-heading h2 { font-size: clamp(46px, 14vw, 58px); line-height: .92; }
+  .process-card { min-height: 168px; padding: 24px 20px; }
+  .process-card h3 { margin-top: 24px; }
+
+  .project-mosaic { gap: 7px; }
+  .project-tile img { height: min(86vw, 430px); }
+  .project-tile-meta { grid-template-columns: 1fr auto; gap: 12px; }
+  .project-tile-meta > span { display: none; }
+  .project-tile-meta strong { font-size: clamp(20px, 6.5vw, 27px); }
+  .project-tile-meta b { white-space: nowrap; }
+
+  .client-band { padding-top: 56px; padding-bottom: 56px; }
+  .client-band-head { margin-bottom: 28px; gap: 14px; }
+  .client-band-head h2 { font-size: clamp(38px, 11vw, 46px); }
+  .logo-mini { min-width: 0; padding: 14px; }
+  .logo-mini img { max-width: 96px; }
+
+  .world { padding: 68px 18px 84px; }
+  .world h2 { font-size: clamp(46px, 14vw, 58px); }
+  .world-copy p { font-size: 16px; }
+
+  .page-hero { min-height: max(520px, 62svh); }
+  .page-hero-inner { padding: 72px 18px 46px; gap: 22px; }
+  .page-hero h1 { font-size: clamp(43px, 12.8vw, 56px); line-height: .94; letter-spacing: -.055em; }
+  .page-hero-description { font-size: 15px; line-height: 1.5; }
+
+  .service-card-copy { padding: 30px 0; }
+  .service-card-copy h2 { text-wrap: balance; }
+  .oem-group { padding-block: 58px; }
+  .oem-group-head { margin-bottom: 26px; }
+  .oem-group h2 { font-size: clamp(38px, 11vw, 50px); }
+  .oem-scroller { grid-auto-columns: 88vw; gap: 8px; }
+
+  .gallery-grid { padding-inline: 8px; }
+  .gallery-item img { height: min(82vw, 420px); }
+  .gallery-item figcaption { padding-inline: 2px; }
+
+  .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-inline: 8px; }
+  .logo-cell { min-width: 0; min-height: 124px; padding: 14px; }
+  .logo-cell span { max-width: 100%; overflow-wrap: anywhere; text-align: center; }
+
+  .timeline-row { grid-template-columns: 64px minmax(0, 1fr); gap: 16px; }
+  .timeline-row p { font-size: 13px; }
+
+  .blog-grid { gap: 34px; }
+  .post-card h3 { font-size: clamp(25px, 7.5vw, 32px); }
+
+  .contact-grid { gap: 34px; }
+  .contact-block a { font-size: clamp(23px, 7.5vw, 31px); }
+  .contact-form { padding: 24px 18px; }
+  .form-intro h2 { font-size: clamp(35px, 10vw, 44px); }
+  .form-submit { width: 100%; }
+
+  .footer { padding-inline: 18px; }
+  .footer-cta { padding-top: 62px; padding-bottom: 54px; gap: 22px; }
+  .footer-cta h2 { font-size: clamp(45px, 13.5vw, 56px); line-height: .94; }
+  .footer-cta-link { min-height: 48px; align-items: center; }
+  .footer-grid { gap: 28px; padding-top: 34px; }
+  .footer-logo-crop { width: 212px; }
+}
+
+@media (max-width: 390px) {
+  :root { --pad: 16px; }
+  .brand-crop { width: 168px; }
+  .hero h1 { font-size: clamp(48px, 15.6vw, 61px); }
+  .hero-foot { left: 16px; right: 16px; }
+  .stat { padding-inline: 14px; }
+  .stat strong { font-size: 30px; }
+  .capability-intro, .capability-row, .process-section, .world, .page-hero-inner, .footer { padding-left: 16px; padding-right: 16px; }
+  .page-hero h1 { font-size: clamp(40px, 12.3vw, 48px); }
+  .footer-cta h2 { font-size: clamp(42px, 13vw, 50px); }
+}
+
+/* Touch devices should not keep desktop hover transforms stuck after tapping. */
+@media (hover: none) {
+  .media-frame:hover img,
+  .project-tile:hover img,
+  .post-card:hover img,
+  .logo-cell:hover img { transform: none; }
+  .button:hover { transform: none; }
+}
