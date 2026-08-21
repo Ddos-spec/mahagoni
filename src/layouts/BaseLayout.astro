@@ -13,7 +13,7 @@ interface Props {
 const {
   title = 'Mahogani Utama Indonesia — Furniture Manufacturing & Interior',
   description = 'PT Mahogani Utama Indonesia is a furniture and cabinet manufacturer serving OEM/ODM, interior contractor, home and commercial projects.',
-  image = 'https://mahoganiutama.com/wp-content/uploads/2022/09/MAHOGANI_COMPRO-DETAIL_by-Priambodoyusuf-4.jpg',
+  image = 'https://images.weserv.nl/?url=https%3A%2F%2Fmahoganiutama.com%2Fwp-content%2Fuploads%2F2025%2F02%2Feasy-ordering-and-customization.webp&output=webp&q=84&w=1600',
   canonical = Astro.url.pathname
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -35,10 +35,10 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f3f0e8" />
+    <meta name="theme-color" content="#f4f1e8" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="preconnect" href="https://mahoganiutama.com" crossorigin />
+    <link rel="preconnect" href="https://images.weserv.nl" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -55,6 +55,7 @@ const jsonLd = {
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>
+    <a class="wa-float" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chat with Mahogani on WhatsApp"><span>WhatsApp</span><b>↗</b></a>
     <Footer />
     <script is:inline define:vars={{ base }}>
       const prefixInternalUrls = () => {
@@ -62,13 +63,15 @@ const jsonLd = {
         document.querySelectorAll('a[href^="/"], img[src^="/"], source[src^="/"], link[href^="/"]').forEach((el) => {
           const attr = el.hasAttribute('href') ? 'href' : 'src';
           const value = el.getAttribute(attr);
-          if (value && value !== base && !value.startsWith(`${base}/`)) {
-            el.setAttribute(attr, `${base}${value}`);
-          }
+          if (value && value !== base && !value.startsWith(`${base}/`)) el.setAttribute(attr, `${base}${value}`);
         });
       };
       const reveal = () => {
-        const items = document.querySelectorAll('[data-reveal]');
+        const items = document.querySelectorAll('[data-reveal]:not(.is-visible)');
+        if (!('IntersectionObserver' in window)) {
+          items.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
         const io = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -76,15 +79,20 @@ const jsonLd = {
               io.unobserve(entry.target);
             }
           });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
         items.forEach((el) => io.observe(el));
       };
-      document.addEventListener('astro:page-load', () => {
-        prefixInternalUrls();
-        reveal();
-      });
-      prefixInternalUrls();
-      reveal();
+      const boot = () => { prefixInternalUrls(); reveal(); };
+      document.addEventListener('DOMContentLoaded', boot, { once: true });
+      if (document.readyState !== 'loading') boot();
+      document.addEventListener('error', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLImageElement) {
+          target.alt = '';
+          target.classList.add('image-failed');
+          target.parentElement?.classList.add('has-image-error');
+        }
+      }, true);
     </script>
   </body>
 </html>
