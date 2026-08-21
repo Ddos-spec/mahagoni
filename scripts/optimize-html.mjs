@@ -32,6 +32,7 @@ const makeSrcset = (url) => {
 };
 
 const getAttr = (tag, name) => tag.match(new RegExp(`\\s${name}="([^"]+)"`, 'i'))?.[1] ?? '';
+const appendAttr = (tag, attribute) => tag.replace(/\s*\/?>$/, ` ${attribute}>`);
 
 const optimizeImageTag = (tag) => {
   const src = getAttr(tag, 'src');
@@ -46,12 +47,12 @@ const optimizeImageTag = (tag) => {
   if (!/\ssrcset=/i.test(next)) {
     next = next.replace(/(\ssrc="[^"]+")/i, `$1 srcset="${srcset}" sizes="100vw"`);
   }
-  if (!/\sdecoding=/i.test(next)) next = next.replace(/\s*\/>$/, ' decoding="async" />');
+  if (!/\sdecoding=/i.test(next)) next = appendAttr(next, 'decoding="async"');
   if (isPriority) {
-    if (!/\sloading=/i.test(next)) next = next.replace(/\s*\/>$/, ' loading="eager" />');
-    if (!/\sfetchpriority=/i.test(next)) next = next.replace(/\s*\/>$/, ' fetchpriority="high" />');
+    if (!/\sloading=/i.test(next)) next = appendAttr(next, 'loading="eager"');
+    if (!/\sfetchpriority=/i.test(next)) next = appendAttr(next, 'fetchpriority="high"');
   } else if (!/\sloading=/i.test(next)) {
-    next = next.replace(/\s*\/>$/, ' loading="lazy" />');
+    next = appendAttr(next, 'loading="lazy"');
   }
   return next;
 };
@@ -66,7 +67,7 @@ const addHeroPreload = (html) => {
   if (!src) return html;
 
   const srcsetAttr = srcset ? ` imagesrcset="${srcset}" imagesizes="100vw"` : '';
-  const preload = `<link rel="preload" as="image" href="${src}"${srcsetAttr} fetchpriority="high" />`;
+  const preload = `<link rel="preload" as="image" href="${src}"${srcsetAttr} fetchpriority="high">`;
   return html.replace('</head>', `${preload}</head>`);
 };
 
