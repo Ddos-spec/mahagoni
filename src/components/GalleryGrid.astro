@@ -5,7 +5,7 @@ const { images, prefix='Mahogani project' } = Astro.props;
 <div class="gallery-grid">
   {images.map((src, i) => (
     <figure class:list={['gallery-item', {'gallery-wide': i % 6 === 0 || i % 6 === 5}]} data-reveal>
-      <div class="gallery-media"><img src={src} alt={`${prefix} ${String(i+1).padStart(2,'0')}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" /></div>
+      <div class="gallery-media"><img src={src} alt={`${prefix} ${String(i+1).padStart(2,'0')}`} width="1200" height="900" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" /></div>
       <figcaption><span>{String(i+1).padStart(2,'0')}</span><span>Selected work</span></figcaption>
     </figure>
   ))}
