@@ -1,31 +1,44 @@
 ---
 import { site } from '@/data/site';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) || '/' : Astro.url.pathname;
+const isId = path.startsWith('/id/');
 const withBase = (href: string) => `${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
+const c = isId ? {
+  kicker: 'Mulai dari gambar kerja',
+  title: 'Punya sesuatu yang perlu diproduksi?',
+  discuss: 'Diskusikan proyek Anda',
+  desc: 'Manufaktur furnitur & kabinet, produksi OEM/ODM, serta pelaksanaan proyek interior dari Indonesia.',
+  factory: 'Pabrik', contact: 'Kontak', navigate: 'Navigasi',
+  about: 'Tentang', capabilities: 'Kapabilitas', clients: 'Klien', journal: 'Artikel',
+  contactPath: '/id/contact-us/', aboutPath: '/id/about/', servicePath: '/id/services/', clientsPath: '/id/clients/', blogPath: '/id/blog/'
+} : {
+  kicker: 'Start with the drawing',
+  title: 'Have something to manufacture?',
+  discuss: 'Discuss your project',
+  desc: 'Furniture & cabinetry manufacturing, OEM/ODM production and interior project delivery from Indonesia.',
+  factory: 'Factory', contact: 'Contact', navigate: 'Navigate',
+  about: 'About', capabilities: 'Capabilities', clients: 'Clients', journal: 'Journal',
+  contactPath: '/en/contact-us/', aboutPath: '/en/about/', servicePath: '/en/services/', clientsPath: '/en/clients/', blogPath: '/en/blog/'
+};
 ---
 <footer class="footer">
   <div class="footer-cta">
-    <div class="kicker light">Start with the drawing</div>
-    <h2>Have something<br/>to manufacture?</h2>
-    <a class="footer-cta-link" href={withBase('/en/contact-us/')}><span>Discuss your project</span><b>↗</b></a>
+    <div class="kicker light">{c.kicker}</div>
+    <h2>{c.title}</h2>
+    <a class="footer-cta-link" href={withBase(c.contactPath)}><span>{c.discuss}</span><b>↗</b></a>
   </div>
   <div class="footer-grid">
     <div class="footer-brand">
       <span class="footer-logo-crop"><img src={logo} alt="Mahogani Utama Indonesia" /></span>
-      <p>Furniture & cabinetry manufacturing, OEM/ODM production and interior project delivery from Indonesia.</p>
+      <p>{c.desc}</p>
     </div>
+    <div><span class="label">{c.factory}</span><p>{site.factory}</p></div>
+    <div><span class="label">{c.contact}</span><p><a href={`mailto:${site.email}`}>{site.email}</a><br/><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a></p></div>
     <div>
-      <span class="label">Factory</span>
-      <p>{site.factory}</p>
-    </div>
-    <div>
-      <span class="label">Contact</span>
-      <p><a href={`mailto:${site.email}`}>{site.email}</a><br/><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a></p>
-    </div>
-    <div>
-      <span class="label">Navigate</span>
-      <p class="footer-links"><a href={withBase('/en/about/')}>About</a><a href={withBase('/en/services/')}>Capabilities</a><a href={withBase('/en/clients/')}>Clients</a><a href={withBase('/en/blog/')}>Journal</a></p>
+      <span class="label">{c.navigate}</span>
+      <p class="footer-links"><a href={withBase(c.aboutPath)}>{c.about}</a><a href={withBase(c.servicePath)}>{c.capabilities}</a><a href={withBase(c.clientsPath)}>{c.clients}</a><a href={withBase(c.blogPath)}>{c.journal}</a></p>
     </div>
   </div>
   <div class="footer-bottom"><span>© {new Date().getFullYear()} PT Mahogani Utama Indonesia</span><a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a></div>
