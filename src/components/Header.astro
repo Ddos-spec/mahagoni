@@ -4,22 +4,36 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) || '/' : Astro.url.pathname;
 const withBase = (href: string) => `${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
-const nav = [
-  ['About','/en/about/'],
-  ['Capabilities','/en/services/'],
-  ['Interior','/en/services/interior-contractor/'],
-  ['Clients','/en/clients/'],
-  ['Journal','/en/blog/']
-];
+const isId = path.startsWith('/id/');
+const lang = isId ? 'id' : 'en';
+const copy = isId ? {
+  home: '/id/',
+  nav: [['Tentang','/id/about/'],['Kapabilitas','/id/services/'],['Interior','/id/services/interior-contractor/'],['Klien','/id/clients/'],['Artikel','/id/blog/']],
+  cta: 'Mulai proyek',
+  menu: 'Menu',
+  switchLabel: 'EN',
+  switchAria: 'Switch to American English'
+} : {
+  home: '/en/',
+  nav: [['About','/en/about/'],['Capabilities','/en/services/'],['Interior','/en/services/interior-contractor/'],['Clients','/en/clients/'],['Journal','/en/blog/']],
+  cta: 'Start a project',
+  menu: 'Menu',
+  switchLabel: 'ID',
+  switchAria: 'Ganti ke Bahasa Indonesia'
+};
+const counterpart = isId
+  ? (path.startsWith('/id/') ? path.replace(/^\/id\//, '/en/') : '/en/')
+  : (path.startsWith('/en/') ? path.replace(/^\/en\//, '/id/') : '/id/');
 ---
 <header class="site-header" data-header>
-  <a class="brand" href={withBase('/en/')} aria-label="Mahogani home">
+  <a class="brand" href={withBase(copy.home)} aria-label="Mahogani home">
     <span class="brand-crop"><img src={logo} alt="Mahogani Utama Indonesia" /></span>
   </a>
-  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span>Menu</span><i></i><i></i></button>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span>{copy.menu}</span><i></i><i></i></button>
   <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-    {nav.map(([label, href]) => <a href={withBase(href)} class:list={{active: path === href || (href === '/en/services/' && path.startsWith('/en/services/'))}}>{label}</a>)}
-    <a class="nav-cta" href={withBase('/en/contact-us/')}><span>Start a project</span><b>↗</b></a>
+    {copy.nav.map(([label, href]) => <a href={withBase(href)} class:list={{active: path === href || (href.endsWith('/services/') && path.startsWith(href))}}>{label}</a>)}
+    <a class="lang-switch" href={withBase(counterpart)} data-lang-choice={isId ? 'en' : 'id'} aria-label={copy.switchAria}>{copy.switchLabel}</a>
+    <a class="nav-cta" href={withBase(isId ? '/id/contact-us/' : '/en/contact-us/')}><span>{copy.cta}</span><b>↗</b></a>
   </nav>
 </header>
 <script is:inline>
@@ -34,4 +48,9 @@ const nav = [
     header?.classList.remove('menu-open');
     document.documentElement.classList.remove('nav-open');
   }));
+  document.querySelectorAll('[data-lang-choice]').forEach((el) => {
+    el.addEventListener('click', () => {
+      try { localStorage.setItem('mahogani-language', el.getAttribute('data-lang-choice') || 'en'); } catch {}
+    });
+  });
 </script>
