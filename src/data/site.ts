@@ -15,6 +15,7 @@ export const site = {
   phone: ['021-7231215', '021-7232477'],
   whatsapp: '6287747603739',
   email: 'sales@mahoganiutama.com',
+  legacyEmail: 'catimo2@gmail.com',
   instagram: 'https://www.instagram.com/mahoganiutama/',
 };
 
@@ -32,9 +33,34 @@ export const assets = {
   easyOrdering: media('2025/02/easy-ordering-and-customization.webp', 1800),
 };
 
+export const whyUsGalleries = [
+  [
+    media('2025/02/easy-ordering-and-customization.webp', 1800),
+    media('2025/02/easy-ordering-and-customization-slide-3.webp', 1400),
+    media('2025/02/easy-ordering-and-customization-slide-2.webp', 1400),
+    media('2025/02/easy-ordering-and-customization-slide-1.webp', 1400),
+  ],
+  [
+    media('2022/09/services-content-1-1024x682.jpg', 1600),
+    media('2022/09/IMG-20200310-WA0088.jpg', 1600),
+    media('2022/09/services-1.jpg', 1600),
+    media('2022/09/services-2.jpg', 1600),
+  ],
+  [
+    media('2022/09/MAHOGANI_COMPROFILE_by-Priambodoyusuf-33-1024x682.jpg', 1800),
+    media('2022/09/services-4.jpg', 1600),
+    media('2022/09/services-5.jpg', 1600),
+    media('2022/09/services-6.jpg', 1600),
+  ],
+];
+
+export const serviceDifferentiators = [
+  'Automation', 'On Schedule', 'Precision', 'Price',
+  'Quality', 'Custom Design', 'Capacity', 'Export'
+] as const;
+
 const oct = '2022/10/';
 
-// Full public portfolio sequence from the original Interior Contractor page.
 export const interiorGallery = [
   'KONT1A.jpg','KONT1B.jpg','KONT1C.jpg','KONT1D.jpg','KONT1E.jpg','KONT1F.jpg',
   'KONT2A.jpg','KONT2B.jpg','KONT2C.jpg','KONT2D.jpg',
@@ -46,7 +72,6 @@ export const interiorGallery = [
   'KONT8A.jpg','KONT8B.jpg','KONT8C.jpg'
 ].map((name) => media(oct + name, 1600));
 
-// Full public sequence from the original Home and Commercial page.
 export const commercialGallery = [
   'COM1A.jpg','COM1B.jpg','COM1C.jpg',
   'COM2A.jpg','COM2B.jpg','COM2C.jpg','COM2D.jpg','COM2E.jpg','COM2F.jpg',
@@ -60,7 +85,6 @@ export const commercialGallery = [
   'HOME6A.jpg','HOME6B.jpg','HOME6C.jpg','HOME6D.jpg'
 ].map((name) => media(oct + name, 1600));
 
-// Complete image sets exposed by the original OEM / ODM page.
 export const oemGroups = [
   {
     title: 'Kitchen & Wardrobe Cabinet',
@@ -127,31 +151,36 @@ export const clientLogos = [
 export const blogPosts = [
   {
     title: 'Jenis Material Filling Cabinet Berdasarkan Kualitasnya',
-    excerpt: 'Memilih filling cabinet bukan hanya soal model, tetapi juga material, kekuatan, harga, dan kesesuaiannya dengan kebutuhan penyimpanan kantor.',
+    category: 'Uncategorized', author: 'Mahogani',
+    excerpt: 'Memilih filling cabinet untuk menyimpan berbagai dokumen dan alat kerja bukan hanya tentang model, tetapi juga harga, kekuatan, dan kesesuaiannya dengan konsep tempat kerja.',
     image: media('2023/01/jenis-material-filling-cabinet-berdasarkan-kualitasnya.jpg', 1200),
     href: 'https://mahoganiutama.com/en/jenis-material-filling-cabinet-berdasarkan-kualitasnya-2/'
   },
   {
     title: '5 Perbedaan Furniture dari Kayu Mahogani dan Kayu Cendana',
-    excerpt: 'Perbandingan karakter kayu mahogani dan cendana dari sisi tampilan, tekstur, bobot, harga, serta penggunaannya pada furnitur.',
+    category: 'Tips', author: 'Mahogani',
+    excerpt: 'Perbandingan kayu mahogani dan cendana dari sisi karakter, tekstur, bobot, harga, asal, dan penggunaannya pada furnitur.',
     image: media('2023/01/5-perbedaan-furniture-dari-kayu-mahogani-dan-kayu-cendana.jpg', 1200),
     href: 'https://mahoganiutama.com/en/5-perbedaan-furniture-dari-kayu-mahogani-dan-kayu-cendana-2/'
   },
   {
     title: 'Tips Memilih Rak Dinding Kayu Unik untuk Hiasan',
-    excerpt: 'Panduan memilih rak dinding kayu berdasarkan penempatan, ukuran, kekuatan, fungsi penyimpanan, dan karakter ruang.',
+    category: 'Tips', author: 'Mahogani',
+    excerpt: 'Rak dinding kayu dapat membantu ruang terasa lebih rapi dan luas. Pemilihannya perlu mempertimbangkan penempatan, kekuatan, ukuran, dan karakter ruang.',
     image: media('2023/01/tips-memilih-rak-dinding-kayu-unik-untuk-hiasan.jpg', 1200),
     href: 'https://mahoganiutama.com/en/tips-memilih-rak-dinding-kayu-unik-untuk-hiasan-2/'
   },
   {
     title: '7 Ide Dekorasi Ruangan untuk Membuat Kamar Estetik',
-    excerpt: 'Ide dekorasi praktis untuk membuat kamar terasa lebih estetik melalui penataan, kombinasi warna, dan detail interior yang tepat.',
+    category: 'Tips', author: 'Mahogani',
+    excerpt: 'Ide dekorasi praktis untuk membuat kamar terasa lebih estetik melalui penataan, palet warna, dan detail interior yang tepat.',
     image: media('2023/01/7-ide-dekorasi-ruangan-untuk-membuat-kamar-estetik.jpg', 1200),
     href: 'https://mahoganiutama.com/7-ide-dekorasi-ruangan-untuk-membuat-kamar-estetik/'
   },
   {
     title: 'Mengenal 5 Jenis Lemari Kayu dan Cara Merawatnya',
-    excerpt: 'Referensi jenis lemari kayu dan cara perawatan agar tampilan, fungsi, dan kualitas permukaan tetap terjaga dari waktu ke waktu.',
+    category: 'Tips', author: 'Mahogani',
+    excerpt: 'Referensi jenis lemari kayu dan perawatan yang membantu mempertahankan tampilan, fungsi, serta kualitas permukaan dari waktu ke waktu.',
     image: media('2023/01/mengenal-5-jenis-lemari-kayu-dan-cara-merawatnya.jpg', 1200),
     href: 'https://mahoganiutama.com/mengenal-5-jenis-lemari-kayu-dan-cara-merawatnya/'
   }
