@@ -1,5 +1,33 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const home = `${base}/en/`;
+const en = `${base}/en/`;
+const id = `${base}/id/`;
 ---
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content={`0;url=${home}`}><link rel="canonical" href={home}><title>Mahogani Utama Indonesia</title></head><body><a href={home}>Continue to Mahogani Utama Indonesia</a></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <title>Mahogani Utama Indonesia</title>
+    <style>html,body{margin:0;min-height:100%;background:#f4f1e8;color:#171717;font-family:Arial,sans-serif}.locale-loader{min-height:100svh;display:grid;place-items:center;text-align:center;padding:24px}.locale-loader b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}.locale-loader p{color:#6f6a62;margin:0}</style>
+  </head>
+  <body>
+    <div class="locale-loader"><div><b>Mahogani Utama Indonesia</b><p>Preparing the right language…</p></div></div>
+    <script is:inline define:vars={{ en, id }}>
+      (() => {
+        let saved = null;
+        try { saved = localStorage.getItem('mahogani-language'); } catch {}
+        if (saved === 'id') return location.replace(id);
+        if (saved === 'en') return location.replace(en);
+
+        const languages = Array.from(navigator.languages || [navigator.language || 'en']);
+        const timezone = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { return ''; } })();
+        const indonesiaZones = new Set(['Asia/Jakarta','Asia/Pontianak','Asia/Makassar','Asia/Jayapura']);
+        const looksIndonesian = languages.some((value) => /^id(?:-|$)/i.test(value) || /[-_]ID$/i.test(value)) || indonesiaZones.has(timezone);
+        location.replace(looksIndonesian ? id : en);
+      })();
+    </script>
+    <noscript><p><a href={id}>Bahasa Indonesia</a> · <a href={en}>English (US)</a></p></noscript>
+  </body>
+</html>
