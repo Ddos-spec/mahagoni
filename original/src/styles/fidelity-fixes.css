@@ -1,0 +1,8 @@
+.classic-site-header{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.classic-site-header .brand-crop img{position:static!important;left:auto!important;top:auto!important;width:240px!important;height:auto!important;max-width:none!important;background:transparent!important}
+.classic-site-nav>a:after{display:none!important}
+/* The scraped Services page ends with the worldwide capability section; the three-card
+   navigation block belonged to an earlier redesign, so keep it out of the rendered layout. */
+.orig-service-cards{display:none!important}
+.orig-gallery-4 img,.orig-logo-grid img,.orig-slide img,.orig-home-post img,.orig-archive-image img{background:#fff}
+@media(max-width:767px){.classic-site-header .brand-crop img{width:200px!important}.orig-gallery-4 img{width:100%;height:auto!important;object-fit:contain!important}}
