@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://mahoganiutama.com',
+  site: 'https://ddos-spec.github.io',
+  base: '/mahagoni',
   output: 'static',
   trailingSlash: 'always',
   prefetch: true
