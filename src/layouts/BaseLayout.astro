@@ -16,13 +16,15 @@ const {
   image = 'https://mahoganiutama.com/wp-content/uploads/2022/09/MAHOGANI_COMPRO-DETAIL_by-Priambodoyusuf-4.jpg',
   canonical = Astro.url.pathname
 } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const canonicalUrl = new URL(canonical, Astro.site ?? Astro.url.origin).toString();
+const schemaLogo = site.logo.startsWith('/') ? new URL(`${base}${site.logo}`, Astro.site ?? Astro.url.origin).toString() : site.logo;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: site.name,
   url: 'https://mahoganiutama.com',
-  logo: site.logo,
+  logo: schemaLogo,
   email: site.email,
   telephone: site.phone[0],
   address: { '@type': 'PostalAddress', streetAddress: site.factory, addressCountry: 'ID' }
@@ -54,7 +56,17 @@ const jsonLd = {
     <Header />
     <main id="main"><slot /></main>
     <Footer />
-    <script is:inline>
+    <script is:inline define:vars={{ base }}>
+      const prefixInternalUrls = () => {
+        if (!base) return;
+        document.querySelectorAll('a[href^="/"], img[src^="/"], source[src^="/"], link[href^="/"]').forEach((el) => {
+          const attr = el.hasAttribute('href') ? 'href' : 'src';
+          const value = el.getAttribute(attr);
+          if (value && value !== base && !value.startsWith(`${base}/`)) {
+            el.setAttribute(attr, `${base}${value}`);
+          }
+        });
+      };
       const reveal = () => {
         const items = document.querySelectorAll('[data-reveal]');
         const io = new IntersectionObserver((entries) => {
@@ -67,7 +79,11 @@ const jsonLd = {
         }, { threshold: 0.12 });
         items.forEach((el) => io.observe(el));
       };
-      document.addEventListener('astro:page-load', reveal);
+      document.addEventListener('astro:page-load', () => {
+        prefixInternalUrls();
+        reveal();
+      });
+      prefixInternalUrls();
       reveal();
     </script>
   </body>
