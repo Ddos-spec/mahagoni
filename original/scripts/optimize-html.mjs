@@ -1,9 +1,16 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile, cp, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const dist = fileURLToPath(new URL('../dist/', import.meta.url));
-const candidateWidths = [320, 480, 640, 800, 960, 1200, 1440, 1800, 2200];
+const root = fileURLToPath(new URL('../', import.meta.url));
+const dist = join(root, 'dist');
+const scrapedUploads = join(root, 'wp-content', 'uploads');
+const distUploads = join(dist, 'wp-content', 'uploads');
+
+// The scrape is the source of truth for imagery. Copy it into the static build so
+// the rebuilt site never depends on mahoganiutama.com or a third-party image proxy.
+await mkdir(join(dist, 'wp-content'), { recursive: true });
+await cp(scrapedUploads, distUploads, { recursive: true, force: true });
 
 const walk = async (dir) => {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -16,41 +23,15 @@ const walk = async (dir) => {
   return files;
 };
 
-const maxWidthFrom = (url) => {
-  const match = url.match(/(?:&|&amp;)w=(\d+)/);
-  return match ? Number(match[1]) : 0;
-};
-
-const withWidth = (url, width) => url.replace(/((?:&|&amp;)w=)\d+/, `$1${width}`);
-
-const makeSrcset = (url) => {
-  const max = maxWidthFrom(url);
-  if (!max) return '';
-  const widths = candidateWidths.filter((width) => width < max);
-  widths.push(max);
-  return [...new Set(widths)].map((width) => `${withWidth(url, width)} ${width}w`).join(', ');
-};
-
 const getAttr = (tag, name) => tag.match(new RegExp(`\\s${name}="([^"]+)"`, 'i'))?.[1] ?? '';
 const appendAttr = (tag, attribute) => tag.replace(/\s*\/?>$/, ` ${attribute}>`);
 
 const optimizeImageTag = (tag) => {
-  const src = getAttr(tag, 'src');
-  if (!src.includes('images.weserv.nl')) return tag;
-
-  const srcset = makeSrcset(src);
-  if (!srcset) return tag;
-
-  const isPriority = /(?:hero-media|page-hero-media)/i.test(tag) || /fetchpriority="high"/i.test(tag);
   let next = tag;
-
-  if (!/\ssrcset=/i.test(next)) {
-    next = next.replace(/(\ssrc="[^"]+")/i, `$1 srcset="${srcset}" sizes="100vw"`);
-  }
+  const isPriority = /fetchpriority="high"/i.test(next);
   if (!/\sdecoding=/i.test(next)) next = appendAttr(next, 'decoding="async"');
   if (isPriority) {
     if (!/\sloading=/i.test(next)) next = appendAttr(next, 'loading="eager"');
-    if (!/\sfetchpriority=/i.test(next)) next = appendAttr(next, 'fetchpriority="high"');
   } else if (!/\sloading=/i.test(next)) {
     next = appendAttr(next, 'loading="lazy"');
   }
@@ -59,16 +40,11 @@ const optimizeImageTag = (tag) => {
 
 const addHeroPreload = (html) => {
   const imageTags = html.match(/<img\b[^>]*>/gi) ?? [];
-  const heroTag = imageTags.find((tag) => /(?:hero-media|page-hero-media)/i.test(tag) || /fetchpriority="high"/i.test(tag));
+  const heroTag = imageTags.find((tag) => /fetchpriority="high"/i.test(tag));
   if (!heroTag || /rel="preload"[^>]+as="image"/i.test(html)) return html;
-
   const src = getAttr(heroTag, 'src');
-  const srcset = getAttr(heroTag, 'srcset') || makeSrcset(src);
   if (!src) return html;
-
-  const srcsetAttr = srcset ? ` imagesrcset="${srcset}" imagesizes="100vw"` : '';
-  const preload = `<link rel="preload" as="image" href="${src}"${srcsetAttr} fetchpriority="high">`;
-  return html.replace('</head>', `${preload}</head>`);
+  return html.replace('</head>', `<link rel="preload" as="image" href="${src}" fetchpriority="high"></head>`);
 };
 
 const files = await walk(dist);
@@ -83,4 +59,4 @@ for (const file of files) {
   }
 }
 
-console.log(`Optimized responsive image delivery in ${changed}/${files.length} HTML files.`);
+console.log(`Copied scraped uploads and optimized ${changed}/${files.length} HTML files.`);
