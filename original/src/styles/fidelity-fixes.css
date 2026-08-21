@@ -5,4 +5,20 @@
    navigation block belonged to an earlier redesign, so keep it out of the rendered layout. */
 .orig-service-cards{display:none!important}
 .orig-gallery-4 img,.orig-logo-grid img,.orig-slide img,.orig-home-post img,.orig-archive-image img{background:#fff}
-@media(max-width:767px){.classic-site-header .brand-crop img{width:200px!important}.orig-gallery-4 img{width:100%;height:auto!important;object-fit:contain!important}}
+
+/* Page-specific differences recovered from the scraped Elementor CSS. */
+.route-blog .orig-page-hero{display:none!important}
+.route-clients .orig-page-hero,.route-contact .orig-page-hero{background-image:var(--route-hero);background-size:cover;background-repeat:no-repeat}
+.route-clients .orig-page-hero{background-position:bottom center}
+.route-contact .orig-page-hero{background-position:center center;padding-top:240px;padding-bottom:160px}
+.route-clients .orig-page-hero>img,.route-contact .orig-page-hero>img{opacity:0}
+.route-clients .orig-page-overlay{background:rgba(26,26,26,.5)}
+.route-contact .orig-page-overlay{background:rgba(26,26,26,.64)}
+.route-clients .orig-clients{padding:64px 0 80px}
+.route-clients .orig-logo-grid{gap:15px}
+.route-contact .orig-contact{padding:40px 0 80px}
+.route-contact .orig-contact>div:first-child{padding:40px 50px 0 0}
+.route-contact .orig-contact aside{background:#fff;padding:40px;box-shadow:0 0 120px rgba(0,0,0,.08)}
+
+@media(max-width:1024px){.route-contact .orig-page-hero{padding:160px 40px 120px}.route-contact .orig-contact>div:first-child{padding:40px 0 0}.route-contact .orig-contact aside{padding:40px}}
+@media(max-width:767px){.classic-site-header .brand-crop img{width:200px!important}.orig-gallery-4 img{width:100%;height:auto!important;object-fit:contain!important}.route-contact .orig-page-hero{padding:160px 24px 80px}.route-contact .orig-contact{padding-top:0}.route-contact .orig-contact>div:first-child{padding-top:40px}.route-contact .orig-contact aside{padding:40px 24px 24px}.route-clients .orig-logo-grid{gap:10px}}
