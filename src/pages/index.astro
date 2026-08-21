@@ -1,1 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/en/"><link rel="canonical" href="/en/"><title>Mahogani Utama Indonesia</title></head><body><a href="/en/">Continue to Mahogani Utama Indonesia</a></body></html>
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const home = `${base}/en/`;
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content={`0;url=${home}`}><link rel="canonical" href={home}><title>Mahogani Utama Indonesia</title></head><body><a href={home}>Continue to Mahogani Utama Indonesia</a></body></html>
