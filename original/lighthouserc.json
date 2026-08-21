@@ -3,9 +3,25 @@
     "collect": {
       "url": [
         "https://ddos-spec.github.io/mahagoni/en/",
-        "https://ddos-spec.github.io/mahagoni/id/"
+        "https://ddos-spec.github.io/mahagoni/en/about/",
+        "https://ddos-spec.github.io/mahagoni/en/services/",
+        "https://ddos-spec.github.io/mahagoni/en/services/oem-and-odm-product/",
+        "https://ddos-spec.github.io/mahagoni/en/services/interior-contractor/",
+        "https://ddos-spec.github.io/mahagoni/en/services/home-and-commercial/",
+        "https://ddos-spec.github.io/mahagoni/en/clients/",
+        "https://ddos-spec.github.io/mahagoni/en/blog/",
+        "https://ddos-spec.github.io/mahagoni/en/contact-us/",
+        "https://ddos-spec.github.io/mahagoni/id/",
+        "https://ddos-spec.github.io/mahagoni/id/about/",
+        "https://ddos-spec.github.io/mahagoni/id/services/",
+        "https://ddos-spec.github.io/mahagoni/id/services/oem-and-odm-product/",
+        "https://ddos-spec.github.io/mahagoni/id/services/interior-contractor/",
+        "https://ddos-spec.github.io/mahagoni/id/services/home-and-commercial/",
+        "https://ddos-spec.github.io/mahagoni/id/clients/",
+        "https://ddos-spec.github.io/mahagoni/id/blog/",
+        "https://ddos-spec.github.io/mahagoni/id/contact-us/"
       ],
-      "numberOfRuns": 2,
+      "numberOfRuns": 1,
       "settings": {
         "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
       }
