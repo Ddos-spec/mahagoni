@@ -2,19 +2,15 @@
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import '@/styles/global.css';
-import '@/styles/classic-refresh.css';
-import '@/styles/mobile.css';
-import '@/styles/classic-shell.css';
-import '@/styles/image-fidelity.css';
 import '@/styles/original-parity.css';
-import { site } from '@/data/site';
+import { assets, site } from '@/data/site';
 interface Props { title?: string; description?: string; image?: string; canonical?: string; }
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const localPath = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) || '/' : Astro.url.pathname;
 const isId = localPath.startsWith('/id/');
 const lang = isId ? 'id' : 'en-US';
 const defaults = isId ? { title:'Mahogani Utama Indonesia — Manufaktur Furnitur & Interior', description:'PT Mahogani Utama Indonesia adalah manufaktur furnitur dan kabinet untuk OEM/ODM, kontraktor interior, hunian, dan proyek komersial.' } : { title:'Mahogani Utama Indonesia — Furniture Manufacturing & Interior', description:'PT Mahogani Utama Indonesia is a furniture and cabinet manufacturer serving OEM/ODM, interior contractor, home and commercial projects.' };
-const { title=defaults.title, description=defaults.description, image='https://images.weserv.nl/?url=https%3A%2F%2Fmahoganiutama.com%2Fwp-content%2Fuploads%2F2022%2F09%2Fbanner.jpg&output=webp&q=84&w=1600', canonical=Astro.url.pathname } = Astro.props;
+const { title=defaults.title, description=defaults.description, image=assets.banner, canonical=Astro.url.pathname } = Astro.props;
 const origin = Astro.site ?? Astro.url.origin;
 const canonicalUrl = new URL(canonical, origin).toString();
 const enPath = localPath.startsWith('/id/') ? localPath.replace(/^\/id\//,'/en/') : (localPath.startsWith('/en/') ? localPath : '/en/');
@@ -22,6 +18,7 @@ const idPath = localPath.startsWith('/en/') ? localPath.replace(/^\/en\//,'/id/'
 const enUrl = new URL(`${base}${enPath}`, origin).toString();
 const idUrl = new URL(`${base}${idPath}`, origin).toString();
 const schemaLogo = site.logo.startsWith('/') ? new URL(`${base}${site.logo}`, origin).toString() : site.logo;
+const ogImage = image.startsWith('http') ? image : new URL(image, origin).toString();
 const faviconSvg=`${base}/favicon.svg`, faviconPng=`${base}/favicon.png`, manifest=`${base}/site.webmanifest`;
 const jsonLd={'@context':'https://schema.org','@type':'Organization',name:site.name,url:'https://mahoganiutama.com',logo:schemaLogo,email:site.email,telephone:site.phone[0],address:{'@type':'PostalAddress',streetAddress:site.factory,addressCountry:'ID'}};
 ---
@@ -30,8 +27,8 @@ const jsonLd={'@context':'https://schema.org','@type':'Organization',name:site.n
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="theme-color" content="#ffffff"/><meta name="color-scheme" content="light"/><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/><meta name="description" content={description}/>
 <link rel="icon" href={faviconSvg} type="image/svg+xml" sizes="any"/><link rel="icon" href={faviconPng} type="image/png"/><link rel="apple-touch-icon" href={faviconPng}/><link rel="manifest" href={manifest}/><link rel="canonical" href={canonicalUrl}/><link rel="alternate" hreflang="id-ID" href={idUrl}/><link rel="alternate" hreflang="en-US" href={enUrl}/><link rel="alternate" hreflang="x-default" href={enUrl}/>
-<link rel="dns-prefetch" href="//images.weserv.nl"/><link rel="dns-prefetch" href="//fonts.gstatic.com"/><link rel="preconnect" href="https://images.weserv.nl" crossorigin/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<meta property="og:type" content="website"/><meta property="og:locale" content={isId?'id_ID':'en_US'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:image" content={image}/><meta property="og:url" content={canonicalUrl}/><meta name="twitter:card" content="summary_large_image"/><title>{title}</title><script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<meta property="og:type" content="website"/><meta property="og:locale" content={isId?'id_ID':'en_US'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:image" content={ogImage}/><meta property="og:url" content={canonicalUrl}/><meta name="twitter:card" content="summary_large_image"/><title>{title}</title><script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 </head>
 <body><a class="skip-link" href="#main">{isId?'Langsung ke konten':'Skip to content'}</a><Header/><main id="main"><slot/></main><a class="wa-float" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" aria-label={isId?'Chat dengan Mahogani melalui WhatsApp':'Chat with Mahogani on WhatsApp'}><span>WhatsApp</span><b>↗</b></a><Footer/>
 <script is:inline define:vars={{base}}>const prefixInternalUrls=()=>{if(!base)return;document.querySelectorAll('a[href^="/"], img[src^="/"], source[src^="/"], link[href^="/"]').forEach((el)=>{const attr=el.hasAttribute('href')?'href':'src';const value=el.getAttribute(attr);if(value&&value!==base&&!value.startsWith(`${base}/`))el.setAttribute(attr,`${base}${value}`)})};const reveal=()=>{const items=document.querySelectorAll('[data-reveal]:not(.is-visible)');if(!('IntersectionObserver'in window)){items.forEach((el)=>el.classList.add('is-visible'));return}const io=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}})},{threshold:.08,rootMargin:'0px 0px -4% 0px'});items.forEach((el)=>io.observe(el))};const boot=()=>{prefixInternalUrls();reveal()};document.addEventListener('DOMContentLoaded',boot,{once:true});if(document.readyState!=='loading')boot();document.addEventListener('error',(event)=>{const target=event.target;if(target instanceof HTMLImageElement){target.alt='';target.classList.add('image-failed');target.parentElement?.classList.add('has-image-error')}},true);</script>
