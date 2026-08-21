@@ -1,0 +1,108 @@
+/* Content-image fidelity layer.
+   Hero and cinematic showcase media may crop intentionally, but documentary/project/article images must remain fully visible. */
+
+.classic-about-image,
+.classic-cap-image,
+.classic-why-media,
+.classic-project-img,
+.classic-product-grid figure,
+.classic-gallery figure,
+.classic-post {
+  background:#f5f2e9;
+}
+
+.classic-about-image img,
+.classic-cap-image img,
+.classic-why-media img,
+.classic-project-img img,
+.classic-product-grid figure img,
+.classic-gallery figure img,
+.classic-post > img,
+.classic-service-row > img {
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  aspect-ratio:auto !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  position:static !important;
+  inset:auto !important;
+  display:block !important;
+  background:#f5f2e9;
+}
+
+.classic-project-img,
+.classic-cap-image,
+.classic-why-media,
+.classic-about-image,
+.classic-product-grid figure,
+.classic-gallery figure {
+  height:auto !important;
+  min-height:0 !important;
+  aspect-ratio:auto !important;
+}
+
+/* Article cards should follow the source image's actual ratio rather than forcing every thumbnail into one crop. */
+.classic-post > img {
+  margin-bottom:18px;
+}
+
+/* Portfolio grids can have mixed image ratios; align cards to the top so rows remain readable without cropping. */
+.classic-gallery,
+.classic-product-grid,
+.classic-project-grid,
+.classic-blog-grid {
+  align-items:start;
+}
+
+.classic-gallery figure,
+.classic-product-grid figure {
+  align-self:start;
+}
+
+/* Keep intentional full-bleed media behavior only where a crop is part of the interface. */
+.classic-hero-media,
+.classic-page-hero > img,
+.classic-showcase-grid img {
+  object-fit:cover !important;
+}
+
+.classic-privacy-note {
+  max-width:760px;
+  margin:36px 0 0;
+  padding-top:22px;
+  border-top:1px solid rgba(23,23,23,.14);
+  color:#716c63;
+  font-size:14px;
+  line-height:1.65;
+}
+
+.classic-values ul {
+  margin:12px 0 0;
+  padding-left:18px;
+  color:#716c63;
+  line-height:1.6;
+}
+
+@media (max-width: 860px) {
+  .classic-about-image img,
+  .classic-cap-image img,
+  .classic-why-media img,
+  .classic-project-img img,
+  .classic-product-grid figure img,
+  .classic-gallery figure img,
+  .classic-post > img,
+  .classic-service-row > img {
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+    object-fit:contain !important;
+  }
+
+  .classic-gallery,
+  .classic-product-grid {
+    grid-auto-rows:auto !important;
+  }
+}
