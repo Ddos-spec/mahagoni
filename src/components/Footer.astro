@@ -3,43 +3,21 @@ import { site } from '@/data/site';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) || '/' : Astro.url.pathname;
 const isId = path.startsWith('/id/');
-const withBase = (href: string) => `${base}${href}`;
+const root = isId ? '/id' : '/en';
+const withBase = (href:string)=>`${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
-const c = isId ? {
-  kicker: 'Mulai dari gambar kerja',
-  title: 'Punya sesuatu yang perlu diproduksi?',
-  discuss: 'Diskusikan proyek Anda',
-  desc: 'Manufaktur furnitur & kabinet, produksi OEM/ODM, serta pelaksanaan proyek interior dari Indonesia.',
-  factory: 'Pabrik', contact: 'Kontak', navigate: 'Navigasi',
-  about: 'Tentang', capabilities: 'Kapabilitas', clients: 'Klien', journal: 'Artikel',
-  contactPath: '/id/contact-us/', aboutPath: '/id/about/', servicePath: '/id/services/', clientsPath: '/id/clients/', blogPath: '/id/blog/'
-} : {
-  kicker: 'Start with the drawing',
-  title: 'Have something to manufacture?',
-  discuss: 'Discuss your project',
-  desc: 'Furniture & cabinetry manufacturing, OEM/ODM production and interior project delivery from Indonesia.',
-  factory: 'Factory', contact: 'Contact', navigate: 'Navigate',
-  about: 'About', capabilities: 'Capabilities', clients: 'Clients', journal: 'Journal',
-  contactPath: '/en/contact-us/', aboutPath: '/en/about/', servicePath: '/en/services/', clientsPath: '/en/clients/', blogPath: '/en/blog/'
-};
+const c = isId ? {office:'Kantor',factory:'Pabrik',menu:'Menu',contact:'Hubungi Kami',home:'Beranda',about:'Tentang',services:'Layanan',clients:'Klien',blog:'Artikel',desc:'Manufaktur furnitur dan kabinet, OEM/ODM, kontraktor interior, serta furnitur hunian dan komersial.'} : {office:'Office',factory:'Factory',menu:'Menu',contact:'Contact us',home:'Home',about:'About',services:'Services',clients:'Clients',blog:'Blog',desc:'Furniture and cabinet manufacturing, OEM/ODM, interior contracting, and home or commercial furniture.'};
 ---
-<footer class="footer">
-  <div class="footer-cta">
-    <div class="kicker light">{c.kicker}</div>
-    <h2>{c.title}</h2>
-    <a class="footer-cta-link" href={withBase(c.contactPath)}><span>{c.discuss}</span><b>↗</b></a>
-  </div>
-  <div class="footer-grid">
-    <div class="footer-brand">
+<footer class="footer classic-footer">
+  <div class="classic-footer-grid">
+    <div class="classic-footer-brand">
       <span class="footer-logo-crop"><img src={logo} width="473" height="129" alt="Mahogani Utama Indonesia" loading="lazy" decoding="async" /></span>
       <p>{c.desc}</p>
+      <a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>
     </div>
-    <div><span class="label">{c.factory}</span><p>{site.factory}</p></div>
-    <div><span class="label">{c.contact}</span><p><a href={`mailto:${site.email}`}>{site.email}</a><br/><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a></p></div>
-    <div>
-      <span class="label">{c.navigate}</span>
-      <p class="footer-links"><a href={withBase(c.aboutPath)}>{c.about}</a><a href={withBase(c.servicePath)}>{c.capabilities}</a><a href={withBase(c.clientsPath)}>{c.clients}</a><a href={withBase(c.blogPath)}>{c.journal}</a></p>
-    </div>
+    <div><span class="label">{c.office}</span><p>{site.office}</p><span class="label second">{c.factory}</span><p>{site.factory}</p></div>
+    <div><span class="label">{c.menu}</span><nav class="classic-footer-links"><a href={withBase(`${root}/`)}>{c.home}</a><a href={withBase(`${root}/about/`)}>{c.about}</a><a href={withBase(`${root}/services/`)}>{c.services}</a><a href={withBase(`${root}/clients/`)}>{c.clients}</a><a href={withBase(`${root}/blog/`)}>{c.blog}</a></nav></div>
+    <div><span class="label">{c.contact}</span><p><a href={`tel:${site.phone[0].replace(/[^0-9+]/g,'')}`}>{site.phone[0]}</a><br/><a href={`tel:${site.phone[1].replace(/[^0-9+]/g,'')}`}>{site.phone[1]}</a><br/><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a><br/><a href={`mailto:${site.email}`}>{site.email}</a></p></div>
   </div>
-  <div class="footer-bottom"><span>© {new Date().getFullYear()} PT Mahogani Utama Indonesia</span><a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a></div>
+  <div class="footer-bottom"><span>Copyright © {new Date().getFullYear()} Mahogani</span><span>PT Mahogani Utama Indonesia</span></div>
 </footer>
