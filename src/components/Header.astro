@@ -5,17 +5,21 @@ const path = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base
 const withBase = (href: string) => `${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
 const nav = [
-  ['Home','/en/'],['About','/en/about/'],['OEM / ODM','/en/services/oem-and-odm-product/'],['Interior','/en/services/interior-contractor/'],['Home & Commercial','/en/services/home-and-commercial/'],['Clients','/en/clients/'],['Journal','/en/blog/']
+  ['About','/en/about/'],
+  ['Capabilities','/en/services/'],
+  ['Interior','/en/services/interior-contractor/'],
+  ['Clients','/en/clients/'],
+  ['Journal','/en/blog/']
 ];
 ---
 <header class="site-header" data-header>
   <a class="brand" href={withBase('/en/')} aria-label="Mahogani home">
-    <img src={logo} width="240" height="42" alt="Mahogani Utama Indonesia" />
+    <span class="brand-crop"><img src={logo} alt="Mahogani Utama Indonesia" /></span>
   </a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span>Menu</span><i></i><i></i></button>
   <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-    {nav.map(([label, href]) => <a href={withBase(href)} class:list={{active: path === href}}>{label}</a>)}
-    <a class="nav-cta" href={withBase('/en/contact-us/')}>Start a project <span>↗</span></a>
+    {nav.map(([label, href]) => <a href={withBase(href)} class:list={{active: path === href || (href === '/en/services/' && path.startsWith('/en/services/'))}}>{label}</a>)}
+    <a class="nav-cta" href={withBase('/en/contact-us/')}><span>Start a project</span><b>↗</b></a>
   </nav>
 </header>
 <script is:inline>
@@ -24,6 +28,10 @@ const nav = [
   toggle?.addEventListener('click', () => {
     const open = header.classList.toggle('menu-open');
     toggle.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('nav-open', open);
   });
-  document.querySelectorAll('.site-nav a').forEach(a => a.addEventListener('click', () => header?.classList.remove('menu-open')));
+  document.querySelectorAll('.site-nav a').forEach(a => a.addEventListener('click', () => {
+    header?.classList.remove('menu-open');
+    document.documentElement.classList.remove('nav-open');
+  }));
 </script>
