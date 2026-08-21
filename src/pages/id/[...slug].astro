@@ -1,0 +1,109 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import GalleryGrid from '@/components/GalleryGrid.astro';
+import { assets, blogPosts, clientLogos, commercialGallery, interiorGallery, oemGroups, site } from '@/data/site';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: undefined }, props: { page: 'home' } },
+    { params: { slug: 'about' }, props: { page: 'about' } },
+    { params: { slug: 'services' }, props: { page: 'services' } },
+    { params: { slug: 'services/oem-and-odm-product' }, props: { page: 'oem' } },
+    { params: { slug: 'services/interior-contractor' }, props: { page: 'interior' } },
+    { params: { slug: 'services/home-and-commercial' }, props: { page: 'commercial' } },
+    { params: { slug: 'clients' }, props: { page: 'clients' } },
+    { params: { slug: 'blog' }, props: { page: 'blog' } },
+    { params: { slug: 'contact-us' }, props: { page: 'contact' } }
+  ];
+}
+
+const { page } = Astro.props;
+const projects=['PT Samsung Indonesia','PappaRich Office','DZ Bank','Yamaha Star Music','IES Jakarta','Bank Mandiri'];
+const timeline=[
+['2004','Berdiri','Dimulai dari merek “Eternity Kitchen” dan layanan desain kitchen set.'],
+['2006','Workshop sendiri','Mendirikan workshop internal di Jakarta Selatan untuk produksi kitchen dan furnitur.'],
+['2010','Ekspansi','Memindahkan fasilitas produksi ke Depok dan memperbesar tim manufaktur.'],
+['2014','Otomasi','Mengadopsi mesin CNC untuk mengotomasi proses produksi utama.'],
+['2016','Kapasitas','Memperluas area kerja dari sekitar 1.000 m² menjadi 2.000 m².'],
+['2017','Ekspor','Memulai ekspor panel kayu ke UEA dan Eropa Barat.'],
+['2018','Jepang','Memulai ekspor panel kayu ke Jepang.'],
+['2019','Amerika Serikat','Memulai ekspor cabinetry ke Amerika Serikat.']
+];
+const meta = {
+  home: ['Mahogani Utama Indonesia — Manufaktur Furnitur & Interior','Manufaktur furnitur dan kabinet, produksi OEM/ODM, serta pelaksanaan proyek interior untuk bisnis dan proyek komersial.'],
+  about: ['Tentang Mahogani Utama Indonesia','Sejarah, kapabilitas, visi, misi, dan nilai PT Mahogani Utama Indonesia.'],
+  services: ['Kapabilitas — Mahogani Utama Indonesia','OEM/ODM, kontraktor interior, furnitur hunian, dan proyek komersial.'],
+  oem: ['OEM & ODM Furnitur — Mahogani','Produksi OEM dan ODM untuk kitchen cabinet, wardrobe, retail, office, dan special furniture.'],
+  interior: ['Kontraktor Interior — Mahogani Utama Indonesia','Portofolio kontraktor interior dan pelaksanaan manufaktur Mahogani Utama Indonesia.'],
+  commercial: ['Furnitur Hunian & Komersial — Mahogani','Portofolio furnitur hunian dan komersial PT Mahogani Utama Indonesia.'],
+  clients: ['Klien — Mahogani Utama Indonesia','Organisasi dan merek yang tercantum dalam portofolio publik Mahogani Utama Indonesia.'],
+  blog: ['Artikel — Mahogani Utama Indonesia','Pengetahuan material, kabinet, furnitur, dan referensi interior dari Mahogani.'],
+  contact: ['Kontak — Mahogani Utama Indonesia','Hubungi Mahogani untuk kebutuhan manufaktur, OEM/ODM, dan proyek interior.']
+}[page] ?? ['Mahogani Utama Indonesia','Manufaktur furnitur dan pelaksanaan proyek interior.'];
+const blogId = blogPosts.map((post, i) => ({...post, excerpt: [
+  'Ringkasan praktis mengenai material filing cabinet dan pertimbangan penting saat menentukan spesifikasi penyimpanan kantor.',
+  'Perbandingan kayu mahogani dan kayu cendana dari sisi karakter, tekstur, bobot, harga, dan asal.',
+  'Panduan memilih rak dinding berdasarkan lokasi, kekuatan, skala, karakter ruang, dan kemudahan perawatan.'
+][i] || post.excerpt }));
+const oemBody = [
+  'Produksi kabinet yang dirancang untuk repeatability, kebutuhan ekspor, dan konsistensi finishing pada berbagai volume.',
+  'Manufaktur furnitur retail yang scalable untuk program toko, marketplace brand, dan koleksi dengan volume berulang.',
+  'Furnitur kantor custom maupun terstandarisasi untuk kebutuhan komersial, institusi, dan pemerintahan.',
+  'Dukungan produksi bagi desainer dan tim produk untuk furnitur atau fixture berbasis kayu dengan bentuk khusus.'
+];
+---
+<BaseLayout title={meta[0]} description={meta[1]}>
+  {page === 'home' && <>
+    <section class="hero">
+      <img class="hero-media" src={assets.hero} alt="Produksi woodworking Mahogani" fetchpriority="high" />
+      <div class="hero-content" data-reveal>
+        <h1>Ide dibuat<br/><em>menjadi nyata.</em></h1>
+        <div class="hero-aside">
+          <div class="eyebrow">Manufaktur furnitur sejak 2004</div>
+          <p>Cabinetry presisi, produksi OEM/ODM, dan pelaksanaan interior untuk brand, desainer, kontraktor, serta proyek komersial.</p>
+          <div class="hero-actions"><a class="button filled" href="/id/services/">Lihat kapabilitas ↗</a><a class="button" href="/id/contact-us/">Mulai proyek</a></div>
+        </div>
+      </div>
+    </section>
+    <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>WOODWORKING <i>•</i> OTOMASI <i>•</i> QUALITY CONTROL <i>•</i> KAPASITAS BESAR <i>•</i> CUSTOM DESIGN <i>•</i> EKSPOR <i>•</i></span><span>WOODWORKING <i>•</i> OTOMASI <i>•</i> QUALITY CONTROL <i>•</i> KAPASITAS BESAR <i>•</i> CUSTOM DESIGN <i>•</i> EKSPOR <i>•</i></span></div></div>
+
+    <section class="section">
+      <div class="section-head" data-reveal><div class="kicker">Tentang Mahogani</div><h2 class="section-title">Disiplin manufaktur tanpa kehilangan keahlian manusia.</h2></div>
+      <div class="about-split">
+        <img src={assets.about} alt="Fasilitas produksi Mahogani" loading="lazy" data-reveal />
+        <div data-reveal><p class="section-copy">Mahogani bekerja bersama brand furnitur dan kabinet, desainer interior, serta kontraktor. Lantai produksi menggabungkan tenaga berpengalaman dengan mesin cabinetry untuk menjaga presisi, repeatability, dan kontrol jadwal.</p>
+          <div class="pillars"><div class="pillar"><span class="kicker">01</span><h3>Woodworking</h3><p>Sumber daya dan pengalaman produksi untuk kebutuhan sekarang maupun pengembangan berikutnya.</p></div><div class="pillar"><span class="kicker">02</span><h3>Otomasi</h3><p>Repeatability berbasis mesin untuk meningkatkan presisi dan kecepatan produksi.</p></div><div class="pillar"><span class="kicker">03</span><h3>Kualitas</h3><p>Quality control menjadi bagian proses manufaktur, bukan sekadar pemeriksaan akhir.</p></div><div class="pillar"><span class="kicker">04</span><h3>Kapasitas</h3><p>Sistem efisien untuk mendukung volume besar maupun produksi berulang.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-strip">
+      <article class="feature" data-reveal><img src={assets.service1} alt="Kustomisasi furnitur Mahogani" loading="lazy"/><div class="feature-text"><h3>Kustomisasi mudah</h3><p>Spesifikasi, desain, dan volume diterjemahkan ke proses produksi yang terstruktur.</p></div></article>
+      <article class="feature" data-reveal><img src={assets.scheduling} alt="Penjadwalan produksi Mahogani" loading="lazy"/><div class="feature-text"><h3>Jadwal terkendali</h3><p>Produksi, packaging, dan dispatch dikoordinasikan sebagai satu alur delivery.</p></div></article>
+      <article class="feature" data-reveal><img src={assets.quality} alt="Quality control Mahogani" loading="lazy"/><div class="feature-text"><h3>Quality control</h3><p>Detail diperiksa terhadap kebutuhan proyek domestik maupun internasional.</p></div></article>
+    </section>
+
+    <section class="world"><div class="world-inner" data-reveal><h2>Dari Depok ke dunia.</h2><div><div class="kicker">Kapabilitas ekspor</div><p>Mahogani berkembang dari proyek domestik menjadi manufaktur ekspor, dari panel kayu hingga cabinetry untuk pasar Asia, Eropa, Timur Tengah, dan Amerika Serikat.</p><a class="button" href="/id/about/">Lihat perjalanan kami ↗</a></div></div></section>
+
+    <section class="section"><div class="section-head" data-reveal><div class="kicker">Proyek terpilih</div><h2 class="section-title">Dipercaya untuk kebutuhan korporasi, hospitality, finansial, dan pendidikan.</h2></div><div class="project-list">{projects.map((p,i)=><a class="project-row" href="/id/clients/" data-reveal><span>{String(i+1).padStart(2,'0')}</span><strong>{p}</strong><span>Lihat klien ↗</span></a>)}</div></section>
+
+    <section class="section"><div class="section-head" data-reveal><div class="kicker">Artikel</div><h2 class="section-title">Catatan material, pengetahuan furnitur, dan referensi praktis.</h2></div><div class="blog-grid">{blogId.map(post=><a class="post-card" href={post.href} target="_blank" rel="noreferrer" data-reveal><img src={post.image} alt={post.title} loading="lazy"/><small>Mahogani Journal</small><h2>{post.title}</h2><p>{post.excerpt}</p><span class="button">Baca artikel ↗</span></a>)}</div></section>
+  </>}
+
+  {page === 'about' && <><PageHero index="02" eyebrow="Tentang" title="Dibangun dari produksi, dibuktikan oleh waktu." description="Perusahaan manufaktur furnitur dan kabinet yang menggabungkan tim berpengalaman, otomasi, dan peningkatan kualitas berkelanjutan." image={assets.factory}/><section class="section"><div class="section-head" data-reveal><div class="kicker">Siapa kami</div><h2 class="section-title">Mitra manufaktur strategis untuk bisnis interior dan furnitur.</h2></div><div class="about-split"><div data-reveal><p class="section-copy">Mahogani mendukung brand furnitur dan cabinetry, desainer interior, serta kontraktor dengan produksi woodworking yang scalable. Fokus operasionalnya: presisi, konsistensi, kapasitas, dan delivery yang dapat diandalkan.</p><div class="values"><article class="value"><b>V</b><h3>Visi</h3><p>Menjadi mitra strategis dalam industri interior domestik dan internasional.</p></article><article class="value"><b>M</b><h3>Misi</h3><p>Memberikan kualitas produk dan layanan yang kuat melalui proses produksi yang konsisten.</p></article><article class="value"><b>+</b><h3>Nilai</h3><p>Integritas, kerja sama tim, dan kerendahan hati dalam produksi serta hubungan bisnis.</p></article></div></div><img src={assets.about} alt="Fasilitas produksi Mahogani" loading="lazy" data-reveal/></div></section><section class="section"><div class="section-head" data-reveal><div class="kicker">Milestone</div><h2 class="section-title">Dua dekade memperbesar kapabilitas.</h2></div><div class="timeline">{timeline.map(([year,title,body])=><div class="timeline-row" data-reveal><time>{year}</time><div><h3>{title}</h3><p>{body}</p></div></div>)}</div></section></>}
+
+  {page === 'services' && <><PageHero index="03" eyebrow="Kapabilitas" title="Kapabilitas produksi yang mengikuti kebutuhan proyek." description="OEM/ODM, kontraktor interior, serta program furnitur hunian dan komersial." image={assets.service2}/><section class="section"><div class="project-list"><a class="project-row" href="/id/services/oem-and-odm-product/"><span>01</span><strong>Produk OEM / ODM</strong><span>Jelajahi ↗</span></a><a class="project-row" href="/id/services/interior-contractor/"><span>02</span><strong>Kontraktor Interior</strong><span>Jelajahi ↗</span></a><a class="project-row" href="/id/services/home-and-commercial/"><span>03</span><strong>Hunian & Komersial</strong><span>Jelajahi ↗</span></a></div></section></>}
+
+  {page === 'oem' && <><PageHero index="03" eyebrow="Layanan manufaktur" title="OEM / ODM yang dirancang untuk skala." description="Outsource produksi furnitur dan cabinetry tanpa mengorbankan spesifikasi, repeatability, dan quality control." image={assets.hero}/><section class="section"><div class="section-head" data-reveal><div class="kicker">Mitra produksi</div><h2 class="section-title">Bahasa desain Anda. Sistem produksi kami.</h2></div><div class="about-split"><p class="section-copy" data-reveal>OEM dan ODM dapat menekan kebutuhan klien untuk memiliki ruang produksi, mesin, dan overhead operasional sendiri. Mahogani menyediakan alur terstruktur dari spesifikasi, manufaktur berulang, hingga delivery.</p><img src={assets.service2} alt="Produksi cabinetry Mahogani" loading="lazy" data-reveal/></div></section>{oemGroups.map((group, idx)=><section class="oem-group"><div class="oem-group-head" data-reveal><h2>{group.title}</h2><p>{oemBody[idx] || group.body}</p></div><div class="oem-scroller">{group.images.map((src,i)=><img src={src} alt={`${group.title} ${i+1}`} loading="lazy" decoding="async"/>)}</div></section>)}</>}
+
+  {page === 'interior' && <><PageHero index="04" eyebrow="Kontraktor interior" title="Eksekusi interior sampai detail milimeter." description="Galeri proyek dari portofolio kontraktor interior Mahogani." image={interiorGallery[0]}/><section class="section client-intro"><div class="section-head" data-reveal><div class="kicker">Pekerjaan terpilih</div><h2 class="section-title">Dibuat untuk ruangnya, dikoordinasikan untuk lapangannya.</h2></div><p class="section-copy" data-reveal>Dari built-in cabinetry sampai paket furnitur interior, setiap proyek diperlakukan sebagai koordinasi antara design intent, detail produksi, perilaku material, dan kesiapan instalasi.</p></section><GalleryGrid images={interiorGallery} prefix="Proyek kontraktor interior"/></>}
+
+  {page === 'commercial' && <><PageHero index="05" eyebrow="Hunian & komersial" title="Furnitur yang dibuat mengikuti cara ruang bekerja." description="Portofolio proyek hunian dan komersial Mahogani." image={commercialGallery[0]}/><section class="section client-intro"><div class="section-head" data-reveal><div class="kicker">Hunian + komersial</div><h2 class="section-title">Fungsi lebih dulu. Detail di setiap sisi.</h2></div><p class="section-copy" data-reveal>Cabinetry dan furnitur dikembangkan mengikuti constraint nyata: skala, sirkulasi, storage, finishing, maintenance, dan cara orang menggunakan ruang setiap hari.</p></section><GalleryGrid images={commercialGallery} prefix="Proyek hunian dan komersial"/></>}
+
+  {page === 'clients' && <><PageHero index="06" eyebrow="Klien" title="Dipercaya saat eksekusi menentukan hasil." description="Pilihan organisasi dan brand yang tercantum di halaman klien publik Mahogani." image={assets.quality}/><section class="section client-intro"><div class="section-head" data-reveal><div class="kicker">Jaringan klien</div><h2 class="section-title">Dari finansial dan hospitality hingga pendidikan, properti, dan enterprise.</h2></div><p class="section-copy" data-reveal>Sebagian hubungan proyek interior tidak dapat dipublikasikan karena perjanjian privasi. Daftar berikut menggunakan nama yang memang sudah dipublikasikan oleh Mahogani.</p></section><div class="logo-grid">{clientLogos.map(([name,src])=><div class="logo-cell" title={name} data-reveal><img src={src} alt={`Logo ${name}`} loading="lazy" decoding="async"/></div>)}</div><section class="section"><div class="world" style="margin:0 calc(var(--pad) * -1);"><div class="world-inner" data-reveal><h2>Punya program yang perlu diproduksi?</h2><div><p>Kirim drawing, kuantitas, kebutuhan material, dan target delivery. Dari situ rute produksinya dapat disusun.</p><a class="button" href="/id/contact-us/">Diskusikan proyek ↗</a></div></div></div></section></>}
+
+  {page === 'blog' && <><PageHero index="07" eyebrow="Artikel" title="Catatan dari dunia furnitur." description="Pengetahuan material, maintenance, dan referensi furnitur dari arsip editorial Mahogani." image={assets.service5}/><section class="section"><div class="blog-grid">{blogId.map(post=><a class="post-card" href={post.href} target="_blank" rel="noreferrer" data-reveal><img src={post.image} alt={post.title} loading="lazy"/><small>Artikel arsip</small><h2>{post.title}</h2><p>{post.excerpt}</p><span class="button">Baca artikel asli ↗</span></a>)}</div></section></>}
+
+  {page === 'contact' && <><PageHero index="08" eyebrow="Kontak" title="Ceritakan apa yang perlu dibuat." description="Untuk inquiry proyek, kirim scope, drawing, target kuantitas, dan jadwal. Semakin jelas brief, semakin cepat diskusi produksi berjalan." image={assets.scheduling}/><section class="section"><div class="contact-grid"><div data-reveal><div class="contact-block"><span class="label">Email</span><a href={`mailto:${site.email}`}>{site.email}</a></div><div class="contact-block"><span class="label">WhatsApp</span><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a></div><div class="contact-block"><span class="label">Pabrik</span><p>{site.factory}</p></div><div class="contact-block"><span class="label">Kantor</span><p>{site.office}</p></div></div><form class="contact-form" data-wa-form data-reveal><div class="field"><label for="name-id">Nama / Perusahaan</label><input id="name-id" name="name" required /></div><div class="field"><label for="scope-id">Apa yang perlu dibuat?</label><input id="scope-id" name="scope" required /></div><div class="field"><label for="qty-id">Kuantitas / skala</label><input id="qty-id" name="qty" /></div><div class="field"><label for="message-id">Catatan proyek</label><textarea id="message-id" name="message"></textarea></div><button class="form-submit" type="submit">Kirim brief via WhatsApp ↗</button></form></div></section><script is:inline define:vars={{ whatsapp: site.whatsapp }}>document.querySelector('[data-wa-form]')?.addEventListener('submit',(e)=>{e.preventDefault();const f=new FormData(e.currentTarget);const text=`Halo Mahogani, saya ingin mendiskusikan proyek.%0A%0ANama/Perusahaan: ${encodeURIComponent(f.get('name')||'')}%0AKebutuhan: ${encodeURIComponent(f.get('scope')||'')}%0AKuantitas/Skala: ${encodeURIComponent(f.get('qty')||'')}%0ACatatan: ${encodeURIComponent(f.get('message')||'')}`;window.open(`https://wa.me/${whatsapp}?text=${text}`,'_blank','noopener');});</script></>}
+</BaseLayout>
