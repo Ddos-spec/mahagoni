@@ -5,7 +5,6 @@ const path = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base
 const withBase = (href: string) => `${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
 const isId = path.startsWith('/id/');
-const lang = isId ? 'id' : 'en';
 const copy = isId ? {
   home: '/id/',
   nav: [['Tentang','/id/about/'],['Kapabilitas','/id/services/'],['Interior','/id/services/interior-contractor/'],['Klien','/id/clients/'],['Artikel','/id/blog/']],
@@ -27,7 +26,7 @@ const counterpart = isId
 ---
 <header class="site-header" data-header>
   <a class="brand" href={withBase(copy.home)} aria-label="Mahogani home">
-    <span class="brand-crop"><img src={logo} alt="Mahogani Utama Indonesia" /></span>
+    <span class="brand-crop"><img src={logo} width="473" height="129" alt="Mahogani Utama Indonesia" decoding="async" /></span>
   </a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span>{copy.menu}</span><i></i><i></i></button>
   <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
