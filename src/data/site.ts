@@ -1,7 +1,7 @@
 export const site = {
   name: 'PT Mahogani Utama Indonesia',
   shortName: 'Mahogani',
-  logo: 'https://mahoganiutama.com/wp-content/uploads/2025/02/logo-mahogani-240x42.webp',
+  logo: '/brand/mahogani-logo.png',
   office: 'Jl. Panglima Polim Raya No.36, Jakarta Selatan, Indonesia',
   factory: 'Komplek Kavling DPR Serua, Jalan Kavling DPR Serua No.38, Serua, Kec. Bojongsari, Kota Depok, Jawa Barat 16517',
   phone: ['021-7231215', '021-7232477'],
