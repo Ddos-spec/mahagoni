@@ -1,8 +1,8 @@
 ---
-import ClassicPages from '@/components/ClassicPages.astro';
+import OriginalReplicaPages from '@/components/OriginalReplicaPages.astro';
 export function getStaticPaths(){return[
   {params:{slug:undefined},props:{page:'home'}},{params:{slug:'about'},props:{page:'about'}},{params:{slug:'services'},props:{page:'services'}},{params:{slug:'services/oem-and-odm-product'},props:{page:'oem'}},{params:{slug:'services/interior-contractor'},props:{page:'interior'}},{params:{slug:'services/home-and-commercial'},props:{page:'commercial'}},{params:{slug:'clients'},props:{page:'clients'}},{params:{slug:'blog'},props:{page:'blog'}},{params:{slug:'contact-us'},props:{page:'contact'}}
 ]}
 const { page } = Astro.props;
 ---
-<ClassicPages lang="id" page={page} />
+<OriginalReplicaPages lang="id" page={page} />
