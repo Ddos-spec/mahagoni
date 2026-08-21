@@ -34,6 +34,9 @@ const idPath = localPath.startsWith('/en/') ? localPath.replace(/^\/en\//, '/id/
 const enUrl = new URL(`${base}${enPath}`, origin).toString();
 const idUrl = new URL(`${base}${idPath}`, origin).toString();
 const schemaLogo = site.logo.startsWith('/') ? new URL(`${base}${site.logo}`, origin).toString() : site.logo;
+const faviconSvg = `${base}/favicon.svg`;
+const faviconPng = `${base}/favicon.png`;
+const manifest = `${base}/site.webmanifest`;
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'Organization', name: site.name,
   url: 'https://mahoganiutama.com', logo: schemaLogo, email: site.email,
@@ -46,11 +49,19 @@ const jsonLd = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f4f1e8" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="description" content={description} />
+    <link rel="icon" href={faviconSvg} type="image/svg+xml" sizes="any" />
+    <link rel="icon" href={faviconPng} type="image/png" />
+    <link rel="apple-touch-icon" href={faviconPng} />
+    <link rel="manifest" href={manifest} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="id-ID" href={idUrl} />
     <link rel="alternate" hreflang="en-US" href={enUrl} />
     <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <link rel="dns-prefetch" href="//images.weserv.nl" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="preconnect" href="https://images.weserv.nl" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
