@@ -1,0 +1,74 @@
+---
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import '@/styles/global.css';
+import { site } from '@/data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+const {
+  title = 'Mahogani Utama Indonesia — Furniture Manufacturing & Interior',
+  description = 'PT Mahogani Utama Indonesia is a furniture and cabinet manufacturer serving OEM/ODM, interior contractor, home and commercial projects.',
+  image = 'https://mahoganiutama.com/wp-content/uploads/2022/09/MAHOGANI_COMPRO-DETAIL_by-Priambodoyusuf-4.jpg',
+  canonical = Astro.url.pathname
+} = Astro.props;
+const canonicalUrl = new URL(canonical, Astro.site ?? Astro.url.origin).toString();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: 'https://mahoganiutama.com',
+  logo: site.logo,
+  email: site.email,
+  telephone: site.phone[0],
+  address: { '@type': 'PostalAddress', streetAddress: site.factory, addressCountry: 'ID' }
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f0e8" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="preconnect" href="https://mahoganiutama.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script is:inline>
+      const reveal = () => {
+        const items = document.querySelectorAll('[data-reveal]');
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        items.forEach((el) => io.observe(el));
+      };
+      document.addEventListener('astro:page-load', reveal);
+      reveal();
+    </script>
+  </body>
+</html>

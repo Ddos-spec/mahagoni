@@ -1,0 +1,12 @@
+---
+interface Props { images: string[]; prefix?: string; }
+const { images, prefix='Mahogani project' } = Astro.props;
+---
+<div class="gallery-grid">
+  {images.map((src, i) => (
+    <figure class:list={['gallery-item', {'gallery-wide': i % 7 === 0}]} data-reveal>
+      <img src={src} alt={`${prefix} ${String(i+1).padStart(2,'0')}`} loading="lazy" decoding="async" />
+      <figcaption><span>{String(i+1).padStart(2,'0')}</span><span>Selected work</span></figcaption>
+    </figure>
+  ))}
+</div>

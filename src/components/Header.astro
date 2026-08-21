@@ -1,0 +1,26 @@
+---
+import { site } from '@/data/site';
+const path = Astro.url.pathname;
+const nav = [
+  ['Home','/en/'],['About','/en/about/'],['OEM / ODM','/en/services/oem-and-odm-product/'],['Interior','/en/services/interior-contractor/'],['Home & Commercial','/en/services/home-and-commercial/'],['Clients','/en/clients/'],['Journal','/en/blog/']
+];
+---
+<header class="site-header" data-header>
+  <a class="brand" href="/en/" aria-label="Mahogani home">
+    <img src={site.logo} width="240" height="42" alt="Mahogani Utama Indonesia" />
+  </a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span>Menu</span><i></i><i></i></button>
+  <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+    {nav.map(([label, href]) => <a href={href} class:list={{active: path === href}}>{label}</a>)}
+    <a class="nav-cta" href="/en/contact-us/">Start a project <span>↗</span></a>
+  </nav>
+</header>
+<script is:inline>
+  const header = document.querySelector('[data-header]');
+  const toggle = header?.querySelector('.menu-toggle');
+  toggle?.addEventListener('click', () => {
+    const open = header.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('.site-nav a').forEach(a => a.addEventListener('click', () => header?.classList.remove('menu-open')));
+</script>

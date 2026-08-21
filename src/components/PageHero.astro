@@ -1,0 +1,13 @@
+---
+interface Props { eyebrow?: string; title: string; description?: string; image?: string; index?: string; }
+const { eyebrow='Mahogani Utama Indonesia', title, description, image, index='01' } = Astro.props;
+---
+<section class:list={['page-hero', {'has-image': image}]}>
+  {image && <img class="page-hero-media" src={image} alt="" loading="eager" fetchpriority="high" />}
+  <div class="page-hero-shade"></div>
+  <div class="page-hero-inner" data-reveal>
+    <div class="eyebrow"><span>{index}</span>{eyebrow}</div>
+    <h1>{title}</h1>
+    {description && <p>{description}</p>}
+  </div>
+</section>

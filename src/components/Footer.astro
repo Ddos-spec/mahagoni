@@ -1,0 +1,15 @@
+---
+import { site } from '@/data/site';
+---
+<footer class="footer">
+  <div class="footer-kicker">Built for scale. Made with precision.</div>
+  <div class="footer-grid">
+    <div>
+      <img class="footer-logo" src={site.logo} width="240" height="42" alt="Mahogani Utama Indonesia" />
+      <p>Furniture & cabinetry manufacturing, OEM/ODM production and interior project delivery from Indonesia.</p>
+    </div>
+    <div><span class="label">Factory</span><p>{site.factory}</p></div>
+    <div><span class="label">Contact</span><p><a href={`mailto:${site.email}`}>{site.email}</a><br/><a href={`https://wa.me/${site.whatsapp}`}>+62 877 4760 3739</a></p></div>
+  </div>
+  <div class="footer-bottom"><span>© {new Date().getFullYear()} Mahogani Utama Indonesia</span><a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a></div>
+</footer>

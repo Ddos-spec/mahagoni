@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mahoganiutama.com/sitemap.xml
