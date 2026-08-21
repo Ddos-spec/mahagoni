@@ -1,24 +1,27 @@
-/* Content-image fidelity layer.
-   Hero and cinematic showcase media may crop intentionally, but documentary/project/article images must remain fully visible. */
+/* Content-image fidelity + original-site parity layer.
+   Documentary/project/article media stays fully visible. Only cinematic hero/showcase media crops intentionally. */
 
 .classic-about-image,
 .classic-cap-image,
-.classic-why-media,
 .classic-project-img,
 .classic-product-grid figure,
 .classic-gallery figure,
-.classic-post {
+.classic-post,
+.classic-service-row > img,
+.classic-why-gallery figure,
+.classic-proof-grid figure {
   background:#f5f2e9;
 }
 
 .classic-about-image img,
 .classic-cap-image img,
-.classic-why-media img,
 .classic-project-img img,
 .classic-product-grid figure img,
 .classic-gallery figure img,
 .classic-post > img,
-.classic-service-row > img {
+.classic-service-row > img,
+.classic-why-gallery img,
+.classic-proof-grid img {
   width:100% !important;
   height:auto !important;
   min-height:0 !important;
@@ -34,38 +37,149 @@
 
 .classic-project-img,
 .classic-cap-image,
-.classic-why-media,
 .classic-about-image,
 .classic-product-grid figure,
-.classic-gallery figure {
+.classic-gallery figure,
+.classic-why-gallery figure,
+.classic-proof-grid figure {
   height:auto !important;
   min-height:0 !important;
   aspect-ratio:auto !important;
 }
 
-/* Article cards should follow the source image's actual ratio rather than forcing every thumbnail into one crop. */
-.classic-post > img {
-  margin-bottom:18px;
-}
-
-/* Portfolio grids can have mixed image ratios; align cards to the top so rows remain readable without cropping. */
-.classic-gallery,
-.classic-product-grid,
-.classic-project-grid,
-.classic-blog-grid {
-  align-items:start;
-}
-
-.classic-gallery figure,
-.classic-product-grid figure {
-  align-self:start;
-}
-
-/* Keep intentional full-bleed media behavior only where a crop is part of the interface. */
+/* Keep intentional full-bleed visual media only in the hero and three-service showcase. */
 .classic-hero-media,
 .classic-page-hero > img,
 .classic-showcase-grid img {
   object-fit:cover !important;
+}
+
+/* WHY US — preserve the original site's complete image sets, but present them as a clean modern gallery. */
+.classic-why-row {
+  align-items:start;
+}
+
+.classic-why-gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  align-items:start;
+}
+
+.classic-why-gallery figure {
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(23,23,23,.08);
+}
+
+.classic-why-gallery figure.is-feature {
+  grid-column:1 / -1;
+}
+
+.classic-why-gallery img {
+  transition:transform .45s ease;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .classic-why-gallery figure:hover img { transform:scale(1.01); }
+}
+
+.classic-why-row.reverse .classic-why-gallery {
+  order:2;
+}
+
+.classic-why-row.reverse .classic-why-copy {
+  order:1;
+}
+
+/* SERVICES — exact content inventory from the original site, upgraded into a structured proof section. */
+.classic-service-overview .classic-intro-two {
+  align-items:start;
+}
+
+.classic-differentiators {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin-top:clamp(42px,6vw,76px);
+  border-top:1px solid rgba(23,23,23,.14);
+  border-left:1px solid rgba(23,23,23,.14);
+}
+
+.classic-differentiators > div {
+  min-height:150px;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border-right:1px solid rgba(23,23,23,.14);
+  border-bottom:1px solid rgba(23,23,23,.14);
+  background:#f5f2e9;
+}
+
+.classic-differentiators span {
+  font-size:10px;
+  letter-spacing:.15em;
+  color:#8d877c;
+}
+
+.classic-differentiators strong {
+  font:600 clamp(20px,2vw,28px)/1.08 'Manrope',sans-serif;
+  letter-spacing:-.035em;
+}
+
+.classic-service-proof {
+  border-bottom:1px solid rgba(23,23,23,.12);
+}
+
+.classic-proof-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  align-items:start;
+}
+
+.classic-proof-grid figure {
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(23,23,23,.08);
+}
+
+.classic-proof-copy {
+  max-width:760px;
+  margin:30px 0 0;
+  font-size:clamp(16px,1.35vw,20px);
+  line-height:1.65;
+  color:#655f56;
+}
+
+/* Blog follows the original inventory: first three on home + Load More, all five on Blog. */
+.classic-post > img {
+  margin-bottom:18px;
+}
+
+.classic-load-more {
+  display:flex;
+  justify-content:center;
+  margin-top:clamp(34px,5vw,62px);
+}
+
+.classic-load-more .classic-btn {
+  min-width:160px;
+}
+
+/* Mixed source ratios should never be forced into matching crops. */
+.classic-gallery,
+.classic-product-grid,
+.classic-project-grid,
+.classic-blog-grid,
+.classic-proof-grid {
+  align-items:start;
+}
+
+.classic-gallery figure,
+.classic-product-grid figure,
+.classic-proof-grid figure {
+  align-self:start;
 }
 
 .classic-privacy-note {
@@ -85,24 +199,87 @@
   line-height:1.6;
 }
 
+/* Contact information can contain long email/address strings on small screens. */
+.classic-contact-info p,
+.classic-contact-info a {
+  overflow-wrap:anywhere;
+}
+
+@media (max-width: 960px) {
+  .classic-differentiators { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .classic-why-gallery { gap:8px; }
+}
+
 @media (max-width: 860px) {
   .classic-about-image img,
   .classic-cap-image img,
-  .classic-why-media img,
   .classic-project-img img,
   .classic-product-grid figure img,
   .classic-gallery figure img,
   .classic-post > img,
-  .classic-service-row > img {
+  .classic-service-row > img,
+  .classic-why-gallery img,
+  .classic-proof-grid img {
     width:100% !important;
     height:auto !important;
+    min-height:0 !important;
     max-height:none !important;
     aspect-ratio:auto !important;
     object-fit:contain !important;
+    object-position:center !important;
   }
 
   .classic-gallery,
   .classic-product-grid {
     grid-auto-rows:auto !important;
   }
+
+  .classic-why-row.reverse .classic-why-gallery,
+  .classic-why-row.reverse .classic-why-copy {
+    order:initial;
+  }
+}
+
+@media (max-width: 640px) {
+  .classic-why-gallery,
+  .classic-proof-grid {
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .classic-why-gallery figure.is-feature {
+    grid-column:auto;
+  }
+
+  .classic-differentiators {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    margin-top:36px;
+  }
+
+  .classic-differentiators > div {
+    min-height:112px;
+    padding:18px 14px;
+  }
+
+  .classic-differentiators strong {
+    font-size:18px;
+  }
+
+  .classic-proof-copy {
+    margin-top:22px;
+    font-size:16px;
+  }
+
+  .classic-load-more {
+    margin-top:34px;
+  }
+
+  .classic-load-more .classic-btn {
+    width:100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .classic-differentiators { grid-template-columns:1fr 1fr; }
+  .classic-differentiators > div { min-height:104px; }
 }
