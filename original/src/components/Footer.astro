@@ -6,6 +6,8 @@ const isId = path.startsWith('/id/');
 const root = isId ? '/id' : '/en';
 const withBase = (href:string)=>`${base}${href}`;
 const logo = site.logo.startsWith('/') ? `${base}${site.logo}` : site.logo;
+const mapLink = (address:string)=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+const youtube = 'https://www.youtube.com/watch?v=TYadM1PhQmo';
 const c = isId ? {office:'Kantor',factory:'Pabrik',menu:'Menu',contact:'Hubungi Kami',home:'Beranda',about:'Tentang',services:'Layanan',clients:'Klien',blog:'Artikel',desc:'Manufaktur furnitur dan kabinet, OEM/ODM, kontraktor interior, serta furnitur hunian dan komersial.'} : {office:'Office',factory:'Factory',menu:'Menu',contact:'Contact us',home:'Home',about:'About',services:'Services',clients:'Clients',blog:'Blog',desc:'Furniture and cabinet manufacturing, OEM/ODM, interior contracting, and home or commercial furniture.'};
 ---
 <footer class="footer classic-footer">
@@ -13,9 +15,12 @@ const c = isId ? {office:'Kantor',factory:'Pabrik',menu:'Menu',contact:'Hubungi 
     <div class="classic-footer-brand">
       <span class="footer-logo-crop"><img src={logo} width="473" height="129" alt="Mahogani Utama Indonesia" loading="lazy" decoding="async" /></span>
       <p>{c.desc}</p>
-      <a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>
+      <div class="footer-social-icons" aria-label={isId?'Media sosial Mahogani':'Mahogani social media'}>
+        <a class="social-icon" href={site.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.25-3.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg></a>
+        <a class="social-icon" href={youtube} target="_blank" rel="noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.7V8.3L16 12l-6.4 3.7Z"/></svg></a>
+      </div>
     </div>
-    <div><span class="label">{c.office}</span><p>{site.office}</p><span class="label second">{c.factory}</span><p>{site.factory}</p></div>
+    <div><span class="label">{c.office}</span><p><a class="footer-map-link" href={mapLink(site.office)} target="_blank" rel="noreferrer">{site.office}</a></p><span class="label second">{c.factory}</span><p><a class="footer-map-link" href={mapLink(site.factory)} target="_blank" rel="noreferrer">{site.factory}</a></p></div>
     <div><span class="label">{c.menu}</span><nav class="classic-footer-links"><a href={withBase(`${root}/`)}>{c.home}</a><a href={withBase(`${root}/about/`)}>{c.about}</a><a href={withBase(`${root}/services/`)}>{c.services}</a><a href={withBase(`${root}/clients/`)}>{c.clients}</a><a href={withBase(`${root}/blog/`)}>{c.blog}</a></nav></div>
     <div><span class="label">{c.contact}</span><p><a href={`tel:${site.phone[0].replace(/[^0-9+]/g,'')}`}>{site.phone[0]}</a><br/><a href={`tel:${site.phone[1].replace(/[^0-9+]/g,'')}`}>{site.phone[1]}</a><br/><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">+62 877 4760 3739</a><br/><a href={`mailto:${site.email}`}>{site.email}</a></p></div>
   </div>
