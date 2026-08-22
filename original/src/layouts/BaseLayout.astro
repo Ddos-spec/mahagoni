@@ -1,10 +1,12 @@
 ---
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import ContactEnhancements from '@/components/ContactEnhancements.astro';
 import '@/styles/global.css';
 import '@/styles/classic-shell.css';
 import '@/styles/original-parity.css';
 import '@/styles/fidelity-fixes.css';
+import '@/styles/image-integrity.css';
 import { assets, site } from '@/data/site';
 interface Props { title?: string; description?: string; image?: string; canonical?: string; }
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -44,7 +46,7 @@ const routeHero = routeKey === 'contact' ? `${base}/wp-content/uploads/2022/10/M
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <meta property="og:type" content="website"/><meta property="og:locale" content={isId?'id_ID':'en_US'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:image" content={ogImage}/><meta property="og:url" content={canonicalUrl}/><meta name="twitter:card" content="summary_large_image"/><title>{title}</title><script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 </head>
-<body class={routeClass} data-route={routeKey} style={routeHero ? `--route-hero:url('${routeHero}')` : undefined}><a class="skip-link" href="#main">{isId?'Langsung ke konten':'Skip to content'}</a><Header/><main id="main"><slot/></main><a class="wa-float" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" aria-label={isId?'Chat dengan Mahogani melalui WhatsApp':'Chat with Mahogani on WhatsApp'}><span>WhatsApp</span><b>↗</b></a><Footer/>
+<body class={routeClass} data-route={routeKey} style={routeHero ? `--route-hero:url('${routeHero}')` : undefined}><a class="skip-link" href="#main">{isId?'Langsung ke konten':'Skip to content'}</a><Header/><main id="main"><slot/></main><ContactEnhancements/><a class="wa-float" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" aria-label={isId?'Chat dengan Mahogani melalui WhatsApp':'Chat with Mahogani on WhatsApp'}><span>WhatsApp</span><b>↗</b></a><Footer/>
 <script is:inline define:vars={{base}}>
 const prefixInternalUrls=()=>{if(!base)return;document.querySelectorAll('a[href^="/"], img[src^="/"], source[src^="/"], link[href^="/"]').forEach((el)=>{const attr=el.hasAttribute('href')?'href':'src';const value=el.getAttribute(attr);if(value&&value!==base&&!value.startsWith(`${base}/`))el.setAttribute(attr,`${base}${value}`)})};
 const reveal=()=>{const items=document.querySelectorAll('[data-reveal]:not(.is-visible)');if(!('IntersectionObserver'in window)){items.forEach((el)=>el.classList.add('is-visible'));return}const io=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}})},{threshold:.08,rootMargin:'0px 0px -4% 0px'});items.forEach((el)=>io.observe(el))};
