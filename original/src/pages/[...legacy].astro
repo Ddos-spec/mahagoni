@@ -1,15 +1,15 @@
 ---
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const mappings = [
-  ['tentang','/id/about/'],
-  ['layanan','/id/services/'],
-  ['layanan/produk-oem-dan-odm','/id/services/oem-and-odm-product/'],
-  ['layanan/kontraktor-interior','/id/services/interior-contractor/'],
-  ['layanan/rumah-dan-komersial','/id/services/home-and-commercial/'],
-  ['artikel','/id/blog/'],
-  ['hubungi-kami','/id/contact-us/'],
-];
 export function getStaticPaths(){
+  const mappings = [
+    ['tentang','/id/about/'],
+    ['layanan','/id/services/'],
+    ['layanan/produk-oem-dan-odm','/id/services/oem-and-odm-product/'],
+    ['layanan/kontraktor-interior','/id/services/interior-contractor/'],
+    ['layanan/rumah-dan-komersial','/id/services/home-and-commercial/'],
+    ['artikel','/id/blog/'],
+    ['hubungi-kami','/id/contact-us/'],
+  ];
   return mappings.map(([legacy,target])=>({params:{legacy},props:{target}}));
 }
 const { target } = Astro.props;
