@@ -10,7 +10,7 @@ jobs:
   screenshots:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,10 +18,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install Chromium for mobile QA
-        run: npx --yes playwright@1.55.0 install --with-deps chromium
+      - name: Install Playwright and Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
       - name: Wait for Pages propagation
         run: sleep 20
+      - name: Responsive overflow and broken-image audit
+        id: responsive-audit
+        continue-on-error: true
+        run: node .github/scripts/responsive-audit.mjs
       - name: Capture every public route at iPhone width
         shell: bash
         run: |
@@ -49,7 +55,7 @@ jobs:
           for route in "${routes[@]}"; do
             safe="${route//\//-}"
             safe="${safe%-}"
-            npx --yes playwright@1.55.0 screenshot \
+            npx playwright screenshot \
               --browser chromium \
               --device "iPhone 13" \
               --full-page \
@@ -57,9 +63,14 @@ jobs:
               "https://ddos-spec.github.io/mahagoni/${route}" \
               "mobile-screens/${safe}.png"
           done
-      - name: Upload mobile QA contact sheet source
+      - name: Upload mobile QA screenshots
         uses: actions/upload-artifact@v4
         with:
           name: mobile-visual-qa
           path: mobile-screens
           retention-days: 14
+      - name: Enforce responsive audit
+        if: ${{ steps.responsive-audit.outcome == 'failure' }}
+        run: |
+          echo "Responsive audit failed. Inspect the mobile-visual-qa screenshots and audit logs."
+          exit 1
