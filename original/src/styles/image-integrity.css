@@ -1,0 +1,24 @@
+/* Preserve the complete source image in content carousels. Hero/project backgrounds intentionally keep cover behavior. */
+.orig-slider-track{align-items:stretch!important}
+.orig-slide{aspect-ratio:1/1!important;display:grid!important;place-items:center!important;overflow:hidden!important;background:#f7f7f7!important}
+.orig-slide>img,.orig-slide>button{width:100%!important;height:100%!important}
+.orig-slide>button{display:grid!important;place-items:center!important}
+.orig-slide img{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;background:#f7f7f7!important}
+.orig-factory-photo img,.orig-home-post img,.orig-archive-image img,.orig-gallery-4 img{height:auto!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center!important}
+
+/* Clickable location and verified social icon UI. */
+.orig-map-link,.footer-map-link{color:inherit;text-decoration:none;display:inline-flex;align-items:flex-start;gap:8px}
+.orig-map-link:after,.footer-map-link:after{content:'↗';color:#ff5e14;font-size:.9em;line-height:1.4}
+.orig-map-link:hover,.footer-map-link:hover{color:#ff5e14}
+.orig-socials,.footer-social-icons{display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important}
+.orig-socials .social-icon,.footer-social-icons .social-icon{width:40px;height:40px;border-radius:50%;display:inline-grid;place-items:center;border:1px solid #ddd;background:#fff;color:#1a1a1a;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.orig-socials .social-icon:hover,.footer-social-icons .social-icon:hover{background:#ff5e14;color:#fff;border-color:#ff5e14;transform:translateY(-1px)}
+.orig-socials .social-icon svg,.footer-social-icons .social-icon svg{width:18px;height:18px;fill:currentColor}
+.classic-footer .footer-social-icons{margin-top:18px}
+.classic-footer .footer-social-icons .social-icon{background:transparent;color:#f4f1e8;border-color:#444}
+.classic-footer .footer-social-icons .social-icon:hover{background:#ff5e14;border-color:#ff5e14;color:#fff}
+
+@media(max-width:767px){
+  .orig-slide{aspect-ratio:1/1!important}
+  .orig-socials .social-icon,.footer-social-icons .social-icon{width:44px;height:44px}
+}
