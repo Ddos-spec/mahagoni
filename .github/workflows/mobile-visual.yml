@@ -1,0 +1,65 @@
+name: Mobile Visual QA
+on:
+  workflow_run:
+    workflows: ["Deploy Astro to GitHub Pages"]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screenshots:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Chromium for mobile QA
+        run: npx --yes playwright@1.55.0 install --with-deps chromium
+      - name: Wait for Pages propagation
+        run: sleep 20
+      - name: Capture every public route at iPhone width
+        shell: bash
+        run: |
+          mkdir -p mobile-screens
+          routes=(
+            "en/"
+            "en/about/"
+            "en/services/"
+            "en/services/oem-and-odm-product/"
+            "en/services/interior-contractor/"
+            "en/services/home-and-commercial/"
+            "en/clients/"
+            "en/blog/"
+            "en/contact-us/"
+            "id/"
+            "id/about/"
+            "id/services/"
+            "id/services/oem-and-odm-product/"
+            "id/services/interior-contractor/"
+            "id/services/home-and-commercial/"
+            "id/clients/"
+            "id/blog/"
+            "id/contact-us/"
+          )
+          for route in "${routes[@]}"; do
+            safe="${route//\//-}"
+            safe="${safe%-}"
+            npx --yes playwright@1.55.0 screenshot \
+              --browser chromium \
+              --device "iPhone 13" \
+              --full-page \
+              --wait-for-timeout 1800 \
+              "https://ddos-spec.github.io/mahagoni/${route}" \
+              "mobile-screens/${safe}.png"
+          done
+      - name: Upload mobile QA contact sheet source
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-visual-qa
+          path: mobile-screens
+          retention-days: 14
